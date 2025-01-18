@@ -3,12 +3,11 @@
   "extends": [
     "config:recommended"
   ], 
-  {
+  "kustomize": {
     "fileMatch": [
-      "(^|/)kustomization\\.ya?ml$"
-    ],
-    "pinDigests": false
-  }, 
+      "(^|/)kustomization\\.ya?ml(\\.j2)?$"
+    ]
+  },
   "customManagers": [
     {
       "customType": "regex",

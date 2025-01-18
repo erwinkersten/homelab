@@ -1,0 +1,40 @@
+# Ignore environment-specific files (direnv)
+.envrc
+
+# Local .terraform directories
+**/.terraform/*
+
+# Ignore variables files
+*.tfvars
+*.auto.tfvars
+
+# Ignore override files
+*.tfoverride
+
+# Ignore Dependency Lock file
+*.lock.hcl
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Ignore OpenTofu output files
+**/output/*
+**/config/**/*.yaml
+
+# Ignore openTofu state files
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+
+# Ignore certificates and keys
+*.cert
+*.key
+*.pem
+*.crt
+
+# Ignore Helm charts
+**/charts/*
+
+# Ignore temp files
+_.*

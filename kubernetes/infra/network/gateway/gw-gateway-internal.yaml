@@ -1,0 +1,33 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway-internal
+  namespace: gateway
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      io.cilium/lb-ipam-ips: 192.168.80.200
+  listeners:
+    - protocol: HTTPS
+      port: 443
+      name: https-gateway
+      hostname: "*.local.erwinkersten.com"
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: wildcard-cert-local-erwinkersten-com
+      allowedRoutes:
+        namespaces:
+          from: All
+    - protocol: HTTPS
+      port: 443
+      name: https-domain-gateway
+      hostname: k8s-prod.local.erwinkersten.com
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: wildcard-cert-local-erwinkersten-com
+      allowedRoutes:
+        namespaces:
+          from: All

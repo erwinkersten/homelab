@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - gw-gatewayclass.yaml
+  - gw-wildcard-cert.yaml
+  - gw-namespace.yaml
+  - gw-gateway-external.yaml
+  - gw-gateway-internal.yaml

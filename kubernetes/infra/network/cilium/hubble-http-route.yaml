@@ -5,10 +5,10 @@ metadata:
   namespace: kube-system
 spec:
   parentRefs:
-    - name: gateway-external
+    - name: gateway-internal
       namespace: gateway
   hostnames:
-    - "k8s-prod.local.erwinkersten.com"
+    - "hubble.local.erwinkersten.com"
   rules:
     - matches:
         - path:

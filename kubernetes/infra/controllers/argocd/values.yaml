@@ -2,7 +2,7 @@ configs:
   cm:
     create: true
     application.resourceTrackingMethod: annotation+label
-    admin.enabled: false
+    admin.enabled: true
     url: https://argocd.local.erwinkersten.com
   cmp:
     create: true

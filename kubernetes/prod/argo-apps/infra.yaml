@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-apps
+  namespace: argocd
+spec: 
+  project: app-of-apps
+  source: 
+    repoURL: https://github.com/erwinkersten/homelab
+    targetRevision: feature/setup-and-configure-argocd  #HEAD
+    path: kubernetes/prod/infra
+  destination:
+    namespace: argocd
+    name: in-cluster
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

@@ -5,3 +5,8 @@ namespace: argocd
 resources:
   - project.yaml
   - infra.yaml
+
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/managed-by: argocd

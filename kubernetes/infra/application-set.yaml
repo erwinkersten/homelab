@@ -23,6 +23,8 @@ spec:
         repoURL: https://github.com/erwinkersten/homelab
         targetRevision: HEAD
         path: '{{ path }}'
+        plugin:
+          name: kustomize-build-with-helm
       destination:
         name: in-cluster
         namespace: argocd

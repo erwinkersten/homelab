@@ -11,7 +11,7 @@ spec:
         repoURL: https://github.com/erwinkersten/homelab
         revision: HEAD
         directories:
-          - path: kubernetes/infra/*
+          - path: kubernetes/infra/policy-as-code/*
   template:
     metadata:
       name: '{{ path.basename }}'

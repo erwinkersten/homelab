@@ -3,9 +3,6 @@
   "extends": [
     "config:recommended"
   ],
-  "helm": {
-    "enabled": true
-  },
   "kustomize": {
     "fileMatch": [
       "(^|/)kustomization\\.ya?ml(\\.j2)?$"

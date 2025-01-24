@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: policy-as-code
+  namespace: argocd
+spec:
+  sourceRepos:
+    - 'https://github.com/erwinkersten/homelab'
+  destinations:
+    - namespace: 'argocd'
+      server: '*'
+    - namespace: 'kyverno'
+      server: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

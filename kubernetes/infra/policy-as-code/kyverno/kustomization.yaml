@@ -1,17 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: kyverno
+
+resources:
+  - ns.yaml
 
 helmCharts:
   - name: kyverno
     repo: https://kyverno.github.io/kyverno/
-    version: 3.3.4 # v1.16.2 # renovate: github-releases=kyverno/
+    version: 3.3.4 # renovate
     releaseName: kyverno
-    valuesInline:
-      admissionController:
-        replicas: 3
-      backgrounfCOntroller:
-        replicas: 2
-      cleanupController:
-        replicas: 2
-      reportController:
-        replicas: 2
+    namespace: kyverno
+    valuesFile: kyverno-values.yaml

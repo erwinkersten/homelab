@@ -2,7 +2,10 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
-  ], 
+  ],
+  "helm": {
+    "enabled": true
+  },
   "kustomize": {
     "fileMatch": [
       "(^|/)kustomization\\.ya?ml(\\.j2)?$"
@@ -20,6 +23,13 @@
       "matchStrings": [
         "(?<currentValue>[\\w+\\.\\-]*)['\",;]*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?"
       ]
+    }
+  ], 
+  "packageRules": [
+    {
+      "packagePatterns": ["^kyverno$"],
+      "managers": ["helm-values"],
+      "registryUrls": ["https://kyverno.github.io/kyverno/"]
     }
   ]
 }

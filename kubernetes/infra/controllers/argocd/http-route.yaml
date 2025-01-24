@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   parentRefs:
-    - name: gateway-external
+    - name: gateway-internal
       namespace: gateway
   hostnames:
     - "argocd.local.erwinkersten.com"

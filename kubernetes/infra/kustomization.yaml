@@ -4,9 +4,3 @@ kind: Kustomization
 resources:
   - project.yaml
   - application-set.yaml
-
-labels:
-- includeSelectors: true
-  pairs:
-    app.kubernetes.io/managed-by: argocd
-    local.erwinkersten.com: infrastructure

@@ -32,3 +32,5 @@ spec:
         automated:
           selfHeal: true
           prune: true
+        syncOptions:
+          - Replace=true # https://kyverno.io/docs/installation/platform-notes/#notes-for-argocd-users

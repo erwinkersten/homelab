@@ -2,8 +2,8 @@
 
 ENV=$1
 
-if [[ -z "$ENV" || ! "$ENV" =~ ^(dev|staging|prod)$ ]]; then
-  echo "Usage: $0 [dev|staging|prod]"
+if [[ -z "$ENV" || ! "$ENV" =~ ^(dev|prod)$ ]]; then
+  echo "Usage: $0 [dev|prod]"
   exit 1
 fi
 

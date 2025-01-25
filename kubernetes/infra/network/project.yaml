@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: network
+  namespace: argocd
+spec:
+  sourceRepos:
+    - 'https://github.com/erwinkersten/homelab'
+  destinations:
+    - namespace: 'argocd'
+      server: '*'
+    - namespace: 'cilium'
+      server: '*'
+    - namespace: 'gateway'
+      server: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

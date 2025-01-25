@@ -12,3 +12,5 @@ helmCharts:
     releaseName: kyverno
     namespace: kyverno
     valuesFile: kyverno-values.yaml
+
+# https://github.com/kyverno/kyverno/blob/main/charts/kyverno/README.md

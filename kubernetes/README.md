@@ -10,7 +10,13 @@ kubernetes/
 ```
 
 ### argo-apps
-This directory contains the App-of-apps pattern resources used to initialize and manage ArgoCD. The App-of-apps pattern allows you to manage multiple applications as a single application in ArgoCD.
+This directory contains the App-of-apps pattern resources used to initialize and manage ArgoCD. The App-of-apps pattern allows you to manage multiple applications as a single application in ArgoCD. 
+
+To manually trigger the ArgoCD App-of-apps deployment, execute the following command:
+
+```bash
+kubectl apply -k kubernetes/argo-apps/
+```
 
 ### core
 This directory contains all the core Kubernetes resources that are bootstrapped using OpenTofu. These resources include essential services and configurations required for to deploy and provision the infra and app resources. 

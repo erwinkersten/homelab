@@ -1,0 +1,22 @@
+## Folder Structure
+The following is the folder structure under the `kubernetes` directory:
+
+```
+kubernetes/
+├── argo-apps/   # Contains the App-of-apps resources to initialize ArgoCD
+├── core/        # Contains all core Kubernetes resources bootstrapped with OpenTofu
+├── infra/       # Contains all infrastructure resources deployed with ArgoCD
+└── apps/        # Contains all application resources deployed with ArgoCD
+```
+
+### argo-apps
+This directory contains the App-of-apps pattern resources used to initialize and manage ArgoCD. The App-of-apps pattern allows you to manage multiple applications as a single application in ArgoCD.
+
+### core
+This directory contains all the core Kubernetes resources that are bootstrapped using OpenTofu. These resources include essential services and configurations required for to deploy and provision the infra and app resources. 
+
+### infra
+This directory contains all the infrastructure resources that are deployed using ArgoCD. These resources include networking, storage, and other infrastructure components necessary for the applications to run.
+
+### apps
+This directory contains all the application resources that are deployed using ArgoCD. Each application has its own directory with the necessary manifests and configurations to deploy and manage the application in the Kubernetes cluster.

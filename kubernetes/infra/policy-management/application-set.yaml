@@ -1,24 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: policy-as-code
+  name: policy-management
   namespace: argocd
   labels:
-    local.erwinkersten.com: policy-as-code
+    local.erwinkersten.com: policy-management
 spec:
   generators:
     - git:
         repoURL: https://github.com/erwinkersten/homelab
         revision: HEAD
         directories:
-          - path: kubernetes/infra/policy-as-code/*
+          - path: kubernetes/infra/policy-management/*
   template:
     metadata:
       name: '{{ path.basename }}'
       labels:
-        local.erwinkersten.com: policy-as-code
+        local.erwinkersten.com: policy-management
     spec:
-      project: policy-as-code
+      project: policy-management
       source:
         repoURL: https://github.com/erwinkersten/homelab
         targetRevision: HEAD

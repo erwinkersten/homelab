@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: policy-as-code
+  name: policy-management
   namespace: argocd
 spec:
   sourceRepos:

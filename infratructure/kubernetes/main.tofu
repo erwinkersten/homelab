@@ -17,7 +17,7 @@ module "talos" {
 
   # Reference Cilium (CNI) inlineManifests for control plane nodes.
   cilium = {
-    values  = file("${path.module}/../../kubernetes/infra/network/cilium/values.yaml")
+    values  = file("${path.module}/../../kubernetes/core/network/cilium/values.yaml")
     install = file("${path.module}/talos/inline-manifests/cilium-install.yaml")
   }
 

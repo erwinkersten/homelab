@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - ciliumL2AnnouncementPolicy.yaml
   - ciliumLoadBalancerIPPool.yaml
-  - http-route-hubble.yaml
 
 helmCharts:
   - name: cilium

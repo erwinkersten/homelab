@@ -1,0 +1,24 @@
+
+# Deploy Node CSI driver only on worker nodes
+node:
+  nodeSelector:
+    topology.kubernetes.io/role: worker
+  tolerations:
+    - operator: Exists
+
+# Deploy CSI controller only on control-plane nodes
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule
+
+storageClass:
+  - name: proxmox-csi
+    cache: writethrough
+    fstype: ext4
+    reclaimPolicy: Retain
+    ssd: true
+    storage: nvme
+    mountOptions:
+      - noatime

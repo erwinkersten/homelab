@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: observability
+  namespace: argocd
+  labels:
+    local.erwinkersten.com: observability
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/erwinkersten/homelab
+        revision: HEAD
+        directories:
+          - path: kubernetes/infra/observability/*
+  template:
+    metadata:
+      name: '{{ path.basename }}'
+      labels:
+        local.erwinkersten.com: observability
+    spec:
+      project: network
+      source:
+        repoURL: https://github.com/erwinkersten/homelab
+        targetRevision: HEAD
+        path: '{{ path }}'
+        plugin:
+          name: kustomize-build-with-helm
+      destination:
+        name: in-cluster
+        namespace: argocd
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true

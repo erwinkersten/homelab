@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: observability
+  namespace: argocd
+spec:
+  sourceRepos:
+    - 'https://github.com/erwinkersten/homelab'
+  destinations:
+    - namespace: 'argocd'
+      server: '*'
+    - namespace: 'kube-system'
+      server: '*'
+    - namespace: 'observability'
+      server: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

@@ -18,7 +18,7 @@ spec:
       labels:
         local.erwinkersten.com: observability
     spec:
-      project: network
+      project: observability
       source:
         repoURL: https://github.com/erwinkersten/homelab
         targetRevision: HEAD

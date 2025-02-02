@@ -10,7 +10,7 @@ helmCharts:
     version: 0.3.4
     releaseName: proxmox-csi-plugin
     includeCRDs: true
-    namespace: storage
+    namespace: csi-proxmox
     valuesFile: values.yaml
 
 # Project: https://github.com/sergelogvinov/proxmox-csi-plugin

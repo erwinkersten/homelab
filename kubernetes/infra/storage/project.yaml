@@ -9,7 +9,7 @@ spec:
   destinations:
     - namespace: 'argocd'
       server: '*'
-    - namespace: 'storage'
+    - namespace: 'csi-proxmox'
       server: '*'
   clusterResourceWhitelist:
     - group: '*'

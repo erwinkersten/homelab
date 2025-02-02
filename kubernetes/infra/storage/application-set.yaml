@@ -16,7 +16,7 @@ spec:
     metadata:
       name: '{{ path.basename }}'
       labels:
-        dev.stonegarden: storage
+        local.erwinkersten.com: storage
     spec:
       project: storage
       source:

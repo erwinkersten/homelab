@@ -1,4 +1,3 @@
-
 # Deploy Node CSI driver only on worker nodes
 node:
   nodeSelector:
@@ -20,5 +19,3 @@ storageClass:
     reclaimPolicy: Retain
     ssd: true
     storage: nvme
-    mountOptions:
-      - noatime

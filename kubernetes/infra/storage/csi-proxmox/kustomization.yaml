@@ -1,9 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-resources:
-  - ns.yaml
-
 helmCharts:
   - name: proxmox-csi-plugin
     repo: oci://ghcr.io/sergelogvinov/charts
@@ -12,6 +9,7 @@ helmCharts:
     includeCRDs: true
     namespace: csi-proxmox
     valuesFile: values.yaml
+    createNamespace: false # Namespace is created via OpenTofu with addional labels
 
 # Project: https://github.com/sergelogvinov/proxmox-csi-plugin
 # Helm Chart documentation: https://github.com/sergelogvinov/proxmox-csi-plugin/tree/main/charts/proxmox-csi-plugin

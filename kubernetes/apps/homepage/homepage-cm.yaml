@@ -23,7 +23,7 @@ data:
       Hypervisor:
         header: true
         style: row
-        columns: 4
+        columns: 1
       Observability:
         header: true
         style: row
@@ -36,13 +36,12 @@ data:
         - Proxmox:
             icon: proxmox.svg
             href: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
-            description: pve1
+            description: pve-01
             widget:
               type: proxmox
               url: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
               username: "{{HOMEPAGE_VAR_PROXMOX_USER}}"
               password: "{{HOMEPAGE_VAR_PROXMOX_API_KEY}}"
-              node: pve-01
     - Observability:
         - Grafana:
             icon: grafana.svg
@@ -61,10 +60,26 @@ data:
             href: https://hubble.local.erwinkersten.com
             description: Hubble
   widgets.yaml: |
-    - resources:
-        cpu: true
-        memory: true
-        disk: /
+    - kubernetes:
+        cluster:
+          # Shows cluster-wide statistics
+          show: true
+          # Shows the aggregate CPU stats
+          cpu: true
+          # Shows the aggregate memory stats
+          memory: true
+          # Shows a custom label
+          showLabel: true
+          label: "cluster"
+        nodes:
+          # Shows node-specific statistics
+          show: true
+          # Shows the CPU for each node
+          cpu: true
+          # Shows the memory for each node
+          memory: true
+          # Shows the label, which is always the node name
+          showLabel: true
     - datetime:
         text_size: xl
         format:

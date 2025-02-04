@@ -1,7 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "enabledManagers": ["kustomize"],
+  "extends": [
+    "config:recommended"
+  ],
+  "enabledManagers": [
+    "kustomize"
+  ],
   "kustomize": {
     "fileMatch": [
       "(^|/)kustomization\\.ya?ml(\\.j2)?$"
@@ -23,14 +27,24 @@
   ],
   "packageRules": [
     {
-      "packagePatterns": ["^kyverno$"],
-      "managers": ["helm-values"],
-      "registryUrls": ["https://kyverno.github.io/kyverno/"]
+      "matchManagers": [
+        "helm-values"
+      ],
+      "registryUrls": [
+        "https://kyverno.github.io/kyverno/"
+      ],
+      "matchPackageNames": [
+        "/^kyverno$/"
+      ]
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["^ghcr.io/corentinth/it-tools$"],
-      "versioning": "loose"
+      "matchDatasources": [
+        "docker"
+      ],
+      "versioning": "loose",
+      "matchPackageNames": [
+        "/^ghcr.io/corentinth/it-tools$/"
+      ]
     }
   ]
 }

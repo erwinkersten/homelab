@@ -20,21 +20,6 @@
       "matchStrings": [
         "(?<currentValue>[\\w+\\.\\-]*)['\",;]*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?"
       ]
-    },
-    {
-      "customType": "regex",
-      "fileMatch": [
-        "\\control-plane.yaml.tftpl$",
-        "\\.yaml$"
-      ],
-      "matchStrings": [
-        "(https://raw\\.githubusercontent\\.com/kubernetes-sigs/gateway-api/)(v[\\d\\.]+)/config/crd/.+\\.yaml",
-        "(?<currentValue>v[\\d\\.]+)\\s*#\\s?renovate:\\s?github-tags=kubernetes-sigs/gateway-api\\s?versioning=(?<versioning>semver)"
-      ],
-      "replaceString": "$1{{newVersion}}/config/crd/",
-      "datasourceTemplate": "github-tags",
-      "depNameTemplate": "kubernetes-sigs/gateway-api",
-      "versioning": "semver"
     }
   ],
   "packageRules": [

@@ -10,6 +10,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   vm_id       = each.value.vm_id
 
   machine       = "q35"
+  scsi_hardware = "virtio-scsi-single"
   bios          = "seabios"
 
   agent {

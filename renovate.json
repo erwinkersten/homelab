@@ -27,6 +27,11 @@
       "packagePatterns": ["^kyverno$"],
       "managers": ["helm-values"],
       "registryUrls": ["https://kyverno.github.io/kyverno/"]
+    }, 
+    {
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["^ghcr.io/corentinth/it-tools$"],
+      "versioning": "loose"
     }
   ]
 }

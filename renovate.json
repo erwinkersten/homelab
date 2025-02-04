@@ -3,9 +3,6 @@
   "extends": [
     "config:recommended"
   ],
-  "enabledManagers": [
-    "kustomize"
-  ],
   "kustomize": {
     "fileMatch": [
       "(^|/)kustomization\\.ya?ml(\\.j2)?$"
@@ -28,7 +25,10 @@
   "packageRules": [
     {
       "matchManagers": [
-        "helm-values"
+        "helm-values", 
+        "helm-chart", 
+        "terraform",
+        
       ],
       "registryUrls": [
         "https://kyverno.github.io/kyverno/"

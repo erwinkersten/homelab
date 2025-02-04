@@ -11,7 +11,7 @@ data:
   settings.yaml: |
     title: Homepage
     background:
-      image: https://images.wallpaperscraft.com/image/single/lines_bands_wavy_15654_2560x1440.jpg
+      image: https://wallpaperscraft.com/download/night_starry_sky_trees_1334550/5049x2840
       blur: sm # sm, md, xl... see https://tailwindcss.com/docs/backdrop-blur
       saturate: 100 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
       brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
@@ -82,6 +82,9 @@ data:
           showLabel: true
     - datetime:
         text_size: xl
+        # 4 januari 2023 om 13:51:25 PST
+        locale: nl
         format:
-          timeStyle: short
+          dateStyle: long
+          timeStyle: long
   docker.yaml: ""

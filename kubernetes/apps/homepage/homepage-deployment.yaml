@@ -18,7 +18,7 @@ spec:
       labels:
         app.kubernetes.io/name: homepage
     spec:
-      serviceAccountName: homepage
+      serviceAccountName: homepage-service-account
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true

@@ -10,12 +10,12 @@ spec:
     - name: gateway-internal
       namespace: gateway
   hostnames:
-    - it-tools.local.erwinkersten.com
+    - homepage.local.erwinkersten.com
   rules:
     - matches:
         - path:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: it-tools
-          port: 80
+        - name: homepage
+          port: 3000

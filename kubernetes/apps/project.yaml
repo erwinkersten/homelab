@@ -11,7 +11,9 @@ spec:
       server: '*'
     - namespace: 'argocd'
       server: '*'
-    - namespace: 'utils'
+    - namespace: 'it-tools'
+      server: '*'
+    - namespace: 'homepage'
       server: '*'
   clusterResourceWhitelist:
     - group: '*'

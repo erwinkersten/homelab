@@ -11,7 +11,7 @@ data:
   settings.yaml: |
     title: Homepage
     background:
-      image: https://cdna.artstation.com/p/assets/images/images/039/686/702/4k/pablo-dominguez-lgr-shapestudies-v003-pd.jpg?1626641885
+      image: https://images.wallpaperscraft.com/image/single/lines_bands_wavy_15654_2560x1440.jpg
       blur: sm # sm, md, xl... see https://tailwindcss.com/docs/backdrop-blur
       saturate: 100 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
       brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness

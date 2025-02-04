@@ -7,9 +7,7 @@ spec:
   sourceRepos:
     - 'https://github.com/erwinkersten/homelab'
   destinations:
-    - namespace: 'kube-system'
-      server: '*'
-    - namespace: 'argocd'
+    - namespace: 'utils'
       server: '*'
   clusterResourceWhitelist:
     - group: '*'

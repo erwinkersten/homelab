@@ -9,9 +9,9 @@ data:
   kubernetes.yaml: |
     mode: cluster
   settings.yaml: |
-    title: Erwin Kersten
+    title: Homepage
     background:
-      image: https://cdnb.artstation.com/p/assets/images/images/006/897/659/large/mikael-gustafsson-wallpaper-mikael-gustafsson.jpg
+      image: https://cdna.artstation.com/p/assets/images/images/039/686/702/4k/pablo-dominguez-lgr-shapestudies-v003-pd.jpg?1626641885
       blur: sm # sm, md, xl... see https://tailwindcss.com/docs/backdrop-blur
       saturate: 100 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
       brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
@@ -24,7 +24,7 @@ data:
         header: true
         style: row
         columns: 4
-      Containers:
+      Observability:
         header: true
         style: row
         columns: 4
@@ -59,7 +59,23 @@ data:
               username: "{{HOMEPAGE_VAR_PROXMOX_USER}}"
               password: "{{HOMEPAGE_VAR_PROXMOX_API_KEY}}"
               node: pve-01
-  widgets.yaml: |
+    - Oservability:
+        - Grafana:
+            icon: grafana.svg
+            href: https://grafana.local.erwinkersten.com
+            description: Grafana
+        - Prometheus:
+            icon: prometheus.svg
+            href: https://prometheus.local.erwinkersten.com
+            description: Prometheus
+        - alertmanager:
+            icon: alertmanager.svg
+            href: https://alertmanager.local.erwinkersten.com
+            description: Alertmanager
+        - hubble:
+            icon: hubble.svg
+            href: https://hubble.local.erwinkersten.com
+            description: Hubble
     - kubernetes:
         cluster:
           show: true

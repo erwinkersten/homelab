@@ -59,7 +59,7 @@ data:
               username: "{{HOMEPAGE_VAR_PROXMOX_USER}}"
               password: "{{HOMEPAGE_VAR_PROXMOX_API_KEY}}"
               node: pve-01
-    - Oservability:
+    - Observability:
         - Grafana:
             icon: grafana.svg
             href: https://grafana.local.erwinkersten.com

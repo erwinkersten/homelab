@@ -3,10 +3,19 @@ The following is the folder structure under the `kubernetes` directory:
 
 ```
 kubernetes/
-├── argo-apps/   # Contains the App-of-apps resources to initialize ArgoCD
 ├── core/        # Contains all core Kubernetes resources bootstrapped with OpenTofu
+├── argo-apps/   # Contains the App-of-apps resources to initialize ArgoCD
 ├── infra/       # Contains all infrastructure resources deployed with ArgoCD
 └── apps/        # Contains all application resources deployed with ArgoCD
+```
+
+### core
+This directory contains all the core Kubernetes resources that are bootstrapped using OpenTofu. These resources include essential services and configurations required for to deploy and provision the infra and app resources. 
+
+For troubleshooting purposes, these resources can also be deployed manually:
+
+```bash
+./deploy-core.sh
 ```
 
 ### argo-apps
@@ -17,9 +26,6 @@ To manually trigger the ArgoCD App-of-apps deployment, execute the following com
 ```bash
 kubectl apply -k kubernetes/argo-apps/
 ```
-
-### core
-This directory contains all the core Kubernetes resources that are bootstrapped using OpenTofu. These resources include essential services and configurations required for to deploy and provision the infra and app resources. 
 
 ### infra
 This directory contains all the infrastructure resources that are deployed using ArgoCD. These resources include networking, storage, and other infrastructure components necessary for the applications to run.

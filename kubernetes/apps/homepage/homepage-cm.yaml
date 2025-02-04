@@ -28,22 +28,6 @@ data:
         header: true
         style: row
         columns: 4
-      DNS:
-        header: true
-        style: row
-        columns: 4
-      Network:
-        header: true
-        style: row
-        columns: 4
-      Home Automation:
-        header: true
-        style: row
-        columns: 4
-      Other:
-        header: true
-        style: row
-        columns: 4
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: ""
@@ -76,25 +60,13 @@ data:
             icon: hubble.svg
             href: https://hubble.local.erwinkersten.com
             description: Hubble
-    - kubernetes:
-        cluster:
-          show: true
-          cpu: true
-          memory: true
-          showLabel: true
-          label: "cluster"
-        nodes:
-          show: true
-          cpu: true
-          memory: true
-          showLabel: true
+  widgets.yaml: |
     - resources:
-        backend: resources
-        expanded: true
         cpu: true
         memory: true
-        network: default
-    - search:
-        provider: duckduckgo
-        target: _blank
+        disk: /
+    - datetime:
+        text_size: xl
+        format:
+          timeStyle: short
   docker.yaml: ""

@@ -32,7 +32,7 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   disk {
     datastore_id = each.value.datastore_id
-    interface    = "virtio0"
+    interface    = "scsi0"
     iothread     = true
     cache        = "writethrough"
     discard      = "on"
@@ -41,6 +41,8 @@ resource "proxmox_virtual_environment_vm" "this" {
     size         = 20
     file_id      = proxmox_virtual_environment_download_file.this.id
   }
+  
+  boot_order = ["scsi0"]
 
   operating_system {
     type = "l26" # Linux Kernel 2.6 - 6.X.

@@ -38,3 +38,6 @@ terraform.rc
 
 # Ignore temp files
 _.*
+
+# Ignore files with secrets
+*.*_encrypt

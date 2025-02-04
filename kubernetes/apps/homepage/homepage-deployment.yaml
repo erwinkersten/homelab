@@ -32,7 +32,7 @@ spec:
               protocol: TCP
           envFrom:
             - secretRef:
-              name: homepage-secret
+                name: homepage-secret
           volumeMounts:
             - mountPath: /app/config/custom.js
               name: homepage-config
@@ -63,6 +63,6 @@ spec:
       volumes:
         - name: homepage-config
           configMap:
-            name: homepagev
+            name: homepage-config
         - name: logs
           emptyDir: {}

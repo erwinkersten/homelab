@@ -9,7 +9,6 @@ prometheus:
       volumeClaimTemplate:
         spec:
           storageClassName: premium-nvme
-          volumeName: pv-prometheus
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:

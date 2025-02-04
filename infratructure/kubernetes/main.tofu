@@ -55,14 +55,14 @@ module "proxmox_csi_plugin" {
   proxmox = var.proxmox
 }
 
-module "argocd" {
-  depends_on = [module.talos]
-  source = "./bootstrap/argocd"
+# module "argocd" {
+#   depends_on = [module.talos]
+#   source = "./bootstrap/argocd"
 
-  providers = {
-    helm = helm
-    kubernetes = kubernetes
-  }
+#   providers = {
+#     helm = helm
+#     kubernetes = kubernetes
+#   }
   
-  argocd = var.argocd 
-}
+#   argocd = var.argocd 
+# }

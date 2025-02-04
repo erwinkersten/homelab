@@ -11,7 +11,7 @@ data:
   settings.yaml: |
     title: Homepage
     background:
-      image: https://wallpaperscraft.com/download/night_starry_sky_trees_1334550/5049x2840
+      image: https://images.wallpaperscraft.com/image/single/night_starry_sky_trees_1334550_5049x2840.jpg
       blur: sm # sm, md, xl... see https://tailwindcss.com/docs/backdrop-blur
       saturate: 100 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
       brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
@@ -56,30 +56,15 @@ data:
             href: https://alertmanager.local.erwinkersten.com
             description: Alertmanager
         - hubble:
-            icon: hubble.svg
+            icon: cilium.svg
             href: https://hubble.local.erwinkersten.com
             description: Hubble
   widgets.yaml: |
-    - kubernetes:
-        cluster:
-          # Shows cluster-wide statistics
-          show: true
-          # Shows the aggregate CPU stats
-          cpu: true
-          # Shows the aggregate memory stats
-          memory: true
-          # Shows a custom label
-          showLabel: true
-          label: "cluster"
-        nodes:
-          # Shows node-specific statistics
-          show: true
-          # Shows the CPU for each node
-          cpu: true
-          # Shows the memory for each node
-          memory: true
-          # Shows the label, which is always the node name
-          showLabel: true
+    - search:
+      provider: duckduckgo
+      focus: true # Optional, will set focus to the search bar on page load
+      showSearchSuggestions: true # Optional, will show search suggestions. Defaults to false
+      target: _blank # One of _self, _blank, _parent or _top
     - datetime:
         text_size: xl
         # 4 januari 2023 om 13:51:25 PST

@@ -12,8 +12,8 @@
     {
       "customType": "regex",
       "fileMatch": [
-        "\\.tf$",
         "\\.tftpl$",
+        "\\.tofu$",
         "\\.yaml$",
         "\\.sh$"
       ],

@@ -8,8 +8,8 @@ metadata:
 data:
   kubernetes.yaml: |
     mode: cluster
-  settings.yaml: ""
-   title: Erwin Kersten
+  settings.yaml: |
+    title: Erwin Kersten
 
     background:
       image: https://cdnb.artstation.com/p/assets/images/images/006/897/659/large/mikael-gustafsson-wallpaper-mikael-gustafsson.jpg

@@ -32,4 +32,4 @@ spec:
           prune: true
       syncOptions:
       - ApplyOutOfSyncOnly=true
-      syncWave: "0"  # set annotation argocd.argoproj.io/sync-wave to "1" for resources that need to be applied after the first wave (deployment.yaml in this case)
+     

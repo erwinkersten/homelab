@@ -10,5 +10,5 @@ resource "helm_release" "argocd" {
   create_namespace = true
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
-  values     = [file("${path.module}/../../../../kubernetes/infra/controllers/argocd/values.yaml")]
+  values     = [file("${path.module}/../../../../kubernetes/core/controllers/argocd/values.yaml")]
 }

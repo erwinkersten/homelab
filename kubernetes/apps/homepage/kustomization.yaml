@@ -4,7 +4,6 @@ resources:
   - homepage-ns.yaml
   - homepage-secret.yaml
   - homepage-sa.yaml
-  - homepage-secret.yaml
   - homepage-cm.yaml
   - homepage-rolebinding.yaml
   - homepage-service.yaml

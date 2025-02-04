@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: it-tools
+  namespace: utils
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: it-tools
+  template:
+    metadata:
+      labels:
+        app: it-tools
+    spec:
+      containers:
+      - name: it-tools
+        image: ghcr.io/corentinth/it-tools:2024.10.22-7ca5933 # renovate: datasource=github-releases depName=corentinth/it-tools
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: it-tools
+  namespace: utils
+spec:
+  selector:
+    app: it-tools
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80

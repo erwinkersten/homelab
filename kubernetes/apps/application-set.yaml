@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: applications
+  name: apps
   namespace: argocd
   labels:
-    local.erwinkersten.com: applications
+    local.erwinkersten.com: apps
 spec:
   generators:
     - git:
@@ -16,9 +16,9 @@ spec:
     metadata:
       name: '{{ path.basename }}'
       labels:
-        local.erwinkersten.com: applications
+        local.erwinkersten.com: apps
     spec:
-      project: applications
+      project: apps
       source:
         repoURL: https://github.com/erwinkersten/homelab
         targetRevision: HEAD

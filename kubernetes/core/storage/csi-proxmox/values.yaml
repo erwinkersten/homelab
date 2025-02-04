@@ -13,9 +13,15 @@ tolerations:
     effect: NoSchedule
 
 storageClass:
-  - name: proxmox-csi
-    cache: writethrough
-    fstype: ext4
-    reclaimPolicy: Retain
-    ssd: true
-    storage: nvme
+- name: premium-nvme
+  storage: nvme # Storage name at proxmox
+  reclaimPolicy: Delete
+  fstype: xfs
+- name: standard-ssd
+  storage: ssd # Storage name at proxmox
+  reclaimPolicy: Delete
+  fstype: xfs
+- name: cold-hdd
+  storage: data # Storage name at proxmox
+  reclaimPolicy: Delete
+  fstype: xfs

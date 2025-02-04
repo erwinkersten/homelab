@@ -1,0 +1,20 @@
+prometheus:
+  prometheusSpec:
+    nodeSelector:
+      topology.kubernetes.io/zone: pve-01
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: premium-nvme
+          volumeName: pv-prometheus
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 30G
+          selector:
+            matchLabels:
+              app: prometheus
+
+nodeExporter:
+  enabled: false

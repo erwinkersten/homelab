@@ -1,8 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
+  "extends": ["config:recommended"],
+  "enabledManagers": ["kustomize"],
   "kustomize": {
     "fileMatch": [
       "(^|/)kustomization\\.ya?ml(\\.j2)?$"
@@ -18,16 +17,16 @@
         "\\.sh$"
       ],
       "matchStrings": [
-        "(?<currentValue>[\\w+\\.\\-]*)['\",;]*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?"
+        "(?<currentValue>[\\w+\\.\\-]*)['\",;]*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)(?:\\s+registry=(?<registryUrl>\\S+))?(?:\\s+versioning=(?<versioning>\\S+))?"
       ]
     }
-  ], 
+  ],
   "packageRules": [
     {
       "packagePatterns": ["^kyverno$"],
       "managers": ["helm-values"],
       "registryUrls": ["https://kyverno.github.io/kyverno/"]
-    }, 
+    },
     {
       "matchDatasources": ["docker"],
       "matchPackagePatterns": ["^ghcr.io/corentinth/it-tools$"],

@@ -24,26 +24,22 @@
   ],
   "packageRules": [
     {
-      "matchManagers": [
-        "helm-values", 
-        "helm-chart", 
-        "terraform",
-        
-      ],
-      "registryUrls": [
-        "https://kyverno.github.io/kyverno/"
-      ],
+      "groupName": "Cilium",
       "matchPackageNames": [
-        "/^kyverno$/"
+        "/cilium/"
       ]
     },
     {
-      "matchDatasources": [
-        "docker"
+      "matchManagers": [
+        "terraform"
       ],
-      "versioning": "loose",
-      "matchPackageNames": [
-        "/^ghcr.io/corentinth/it-tools$/"
+      "matchDepTypes": [
+        "provider",
+        "required_provider"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
       ]
     }
   ]

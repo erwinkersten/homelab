@@ -20,10 +20,10 @@ data:
     color: slate
     useEqualHeights: true
     layout:
-      Hypervisor:
+      Status:
         header: true
         style: row
-        columns: 1
+        columns: 4
       Observability:
         header: true
         style: row
@@ -32,7 +32,7 @@ data:
   custom.js: ""
   bookmarks.yaml: ""
   services.yaml: |
-    - Hypervisor:
+    - Status:
         - Proxmox:
             icon: proxmox.svg
             href: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
@@ -42,6 +42,15 @@ data:
               url: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
               username: "{{HOMEPAGE_VAR_PROXMOX_USER}}"
               password: "{{HOMEPAGE_VAR_PROXMOX_API_KEY}}"
+        - Proxmox Backup Server:
+            icon: proxmox.svg
+            href: "{{HOMEPAGE_VAR_PROXMOX_BACKUP_SERVER_URL}}"
+            description: pbs-01
+            widget:
+              type: proxmoxbackupserver
+              url: "{{HOMEPAGE_VAR_PROXMOX_BACKUP_SERVER_URL}}"
+              username: "{{HOMEPAGE_VAR_PROXMOX_BACKUP_SERVER_USER}}"
+              password: "{{HOMEPAGE_VAR_PROXMOX_BACKUP_SERVER_API_KEY}}"
         - ArgoCD:
             icon: argocd.svg
             href: https://argocd.local.erwinkersten.com

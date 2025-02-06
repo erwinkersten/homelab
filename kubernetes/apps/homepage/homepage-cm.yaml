@@ -74,7 +74,7 @@ data:
               username: "{{HOMEPAGE_VAR_PROXMOX_BACKUP_SERVER_USER}}"
               password: "{{HOMEPAGE_VAR_PROXMOX_BACKUP_SERVER_API_KEY}}"
         - ArgoCD:
-            icon: argocd.svg
+            icon: https://icon.icepanel.io/Technology/png-512/Argo-CD.png
             href: "{{HOMEPAGE_VAR_ARGOCD_URL}}"	
             description: ArgoCD
             widget:
@@ -83,6 +83,9 @@ data:
               key: "{{HOMEPAGE_VAR_ARGOCD_API_KEY}}"
        
   widgets.yaml: |
+    - search:
+        provider: duckduckgo
+        target: _blank
     - datetime:
         text_size: xl
         # 4 januari 2023 om 13:51:25 PST
@@ -90,7 +93,5 @@ data:
         format:
           dateStyle: long
           timeStyle: long
-    - search:
-        provider: duckduckgo
-        target: _blank
+
   docker.yaml: ""

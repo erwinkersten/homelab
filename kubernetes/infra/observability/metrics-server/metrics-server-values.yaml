@@ -1,4 +1,4 @@
 apiService:
   insecureSkipTLSVerify: false
 tls:
-  type: cert-manager
+  type: helm

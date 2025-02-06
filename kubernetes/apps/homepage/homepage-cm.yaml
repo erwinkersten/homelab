@@ -24,13 +24,35 @@ data:
         header: true
         style: row
         columns: 4
-      Observability:
+      Services
         header: true
         style: row
         columns: 4
   custom.css: ""
   custom.js: ""
-  bookmarks.yaml: ""
+  bookmarks.yaml: |
+    - Services: 
+        - title: Grafana
+          url: "{{HOMEPAGE_VAR_GRAFANA_URL}}"
+          icon: grafana.svg
+        - title: Prometheus
+          url: "{{HOMEPAGE_VAR_PROMETHEUS_URL}}"
+          icon: prometheus.svg
+        - title: Alertmanager
+          url: "{{HOMEPAGE_VAR_ALERTMANAGER_URL}}"
+          icon: alertmanager.svg
+        - title: Hubble
+          url: "{{HOMEPAGE_VAR_HUBBLE_URL}}"
+          icon: cilium.svg
+        - title: Proxmox
+          url: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+          icon: proxmox.svg
+        - title: Proxmox Backup Server
+          url: "{{HOMEPAGE_VAR_PROXMOX_BACKUP_SERVER_URL}}"
+          icon: proxmox.svg
+        - title: ArgoCD
+          url: "{{HOMEPAGE_VAR_ARGOCD_URL}}"
+          icon: argocd.svg
   services.yaml: |
     - Status:
         - Proxmox:
@@ -53,30 +75,13 @@ data:
               password: "{{HOMEPAGE_VAR_PROXMOX_BACKUP_SERVER_API_KEY}}"
         - ArgoCD:
             icon: argocd.svg
-            href: https://argocd.local.erwinkersten.com
+            href: "{{HOMEPAGE_VAR_ARGOCD_URL}}"	
             description: ArgoCD
             widget:
               type: argocd
-              url: https://argocd.local.erwinkersten.com
+              url: "{{HOMEPAGE_VAR_ARGOCD_URL}}"
               key: "{{HOMEPAGE_VAR_ARGOCD_API_KEY}}"
-    - Services:
-        - Grafana:
-            icon: grafana.svg
-            href: "{{HOMEPAGE_VAR_GRAFANA_URL}}"
-            description: Grafana
-        - Prometheus:
-            icon: prometheus.svg
-            href: "{{HOMEPAGE_VAR_PROMETHEUS_URL}}"
-            description: Prometheus
-        - alertmanager:
-            icon: alertmanager.svg
-            href: "{{HOMEPAGE_VAR_ALERTMANAGER_URL}}"
-            description: Alertmanager
-        - Hubble:
-            icon: cilium.svg
-            href: "{{HOMEPAGE_VAR_HUBBLE_URL}}"
-            description: Hubble
-        
+       
   widgets.yaml: |
     - datetime:
         text_size: xl

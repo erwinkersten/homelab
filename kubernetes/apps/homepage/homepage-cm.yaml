@@ -32,27 +32,18 @@ data:
   custom.js: ""
   bookmarks.yaml: |
     - Services: 
-        - title: Grafana
-          url: "{{HOMEPAGE_VAR_GRAFANA_URL}}"
-          icon: grafana.svg
-        - title: Prometheus
-          url: "{{HOMEPAGE_VAR_PROMETHEUS_URL}}"
-          icon: prometheus.svg
-        - title: Alertmanager
-          url: "{{HOMEPAGE_VAR_ALERTMANAGER_URL}}"
-          icon: alertmanager.svg
-        - title: Hubble
-          url: "{{HOMEPAGE_VAR_HUBBLE_URL}}"
-          icon: cilium.svg
-        - title: Proxmox
-          url: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
-          icon: proxmox.svg
-        - title: Proxmox Backup Server
-          url: "{{HOMEPAGE_VAR_PROXMOX_BACKUP_SERVER_URL}}"
-          icon: proxmox.svg
-        - title: ArgoCD
-          url: "{{HOMEPAGE_VAR_ARGOCD_URL}}"
-          icon: argocd.svg
+        - Grafana:
+           - href: "{{HOMEPAGE_VAR_GRAFANA_URL}}"
+             icon: grafana.svg
+        - Prometheus:
+            - href: "{{HOMEPAGE_VAR_PROMETHEUS_URL}}"
+              icon: prometheus.svg
+        - Alertmanager:
+            - href: "{{HOMEPAGE_VAR_ALERTMANAGER_URL}}"
+              icon: alertmanager.svg
+        - Hubble:
+            - href: "{{HOMEPAGE_VAR_HUBBLE_URL}}"
+              icon: cilium.svg
   services.yaml: |
     - Status:
         - Proxmox:

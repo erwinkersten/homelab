@@ -24,7 +24,7 @@ data:
         header: true
         style: row
         columns: 4
-      Services
+      Services:
         header: true
         style: row
         columns: 4

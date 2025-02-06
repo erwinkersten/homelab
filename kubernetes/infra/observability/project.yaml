@@ -13,6 +13,8 @@ spec:
       server: '*'
     - namespace: 'observability'
       server: '*'
+    - namespace: 'metric-server'
+      server: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'

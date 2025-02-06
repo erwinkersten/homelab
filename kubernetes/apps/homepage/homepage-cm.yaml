@@ -33,14 +33,22 @@ data:
         header: true
         style: row
         columns: 2
-      Services:
+      Observability:
+        header: true
+        style: row
+        columns: 2
+      Network:
+        header: true
+        style: row
+        columns: 2
+      Other:
         header: true
         style: row
         columns: 2
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
-    - Services: 
+    - Observability: 
         - Grafana:
            - href: "{{HOMEPAGE_VAR_GRAFANA_URL}}"
              icon: grafana.svg
@@ -53,6 +61,38 @@ data:
         - Hubble:
             - href: "{{HOMEPAGE_VAR_HUBBLE_URL}}"
               icon: cilium.svg
+    - Network:
+        - Ubiquiti EdgeRouter 6P (Core):
+            - href: "{{HOMEPAGE_VAR_EDGEROUTER_6P_URL}}"
+              icon: ubiquiti.svg
+        - Ubiquiti EdgeSwitch 16 XG (Aggregation):
+            - href: "{{HOMEPAGE_VAR_EDGESWITCH_16_XG_URL}}"
+              icon: ubiquiti.svg
+        - Ubiquiti EdgeSwitch 24 250W (Access):
+            - href: "{{HOMEPAGE_VAR_EDGESWITCH_24_250W_URL}}"
+              icon: ubiquiti.svg
+        - Ubiquiti EdgeSwitch 24 Lite (Access):
+            - href: "{{HOMEPAGE_VAR_EDGESWITCH_24_LITE_URL}}"
+              icon: ubiquiti.svg
+        - Ubiquiti EdgeSwitch 10X (Access):
+            - href: "{{HOMEPAGE_VAR_EDGESWITCH_10X_URL}}" 
+              icon: ubiquiti.svg
+        - Ubiquiti EdgeRouter X ERX-01:
+            - href: "{{HOMEPAGE_VAR_EDGEROUTER_X_ERX_01_URL}}"
+              icon: ubiquiti.svg
+        - Ubiquiti EdgeRouter X ERX-02:
+            - href: "{{HOMEPAGE_VAR_EDGEROUTER_X_ERX_02_URL}}"
+              icon: ubiquiti.svg
+        - Ubiquiti EdgeRouter 12:
+            - href: "{{HOMEPAGE_VAR_EDGEROUTER_12_URL}}"
+              icon: ubiquiti.svg  
+        - UISP Management Application:
+            - href: "{{HOMEPAGE_VAR_UISP_URL}}"
+              icon: ubiquiti.svg
+    - Other:  
+        - QNAP:
+            - href: "{{HOMEPAGE_VAR_QNAP_URL}}"
+              icon: qnap.svg  
   services.yaml: |
     - Status:
         - Proxmox:

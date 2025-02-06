@@ -10,6 +10,9 @@ data:
     mode: cluster
   settings.yaml: |
     title: Homepage
+    headerStyle: clean
+    language: en
+    hideErrors: false # true, false
     background:
       image: https://images.wallpaperscraft.com/image/single/night_starry_sky_trees_1334550_5049x2840.jpg
       blur: sm # sm, md, xl... see https://tailwindcss.com/docs/backdrop-blur
@@ -19,15 +22,21 @@ data:
     theme: dark
     color: slate
     useEqualHeights: true
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: true
+      showSearchSuggestions: true
+      hideVisitURL: true
+      provider: google
     layout:
       Status:
         header: true
         style: row
-        columns: 4
+        columns: 2
       Services:
         header: true
         style: row
-        columns: 4
+        columns: 2
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
@@ -81,4 +90,7 @@ data:
         format:
           dateStyle: long
           timeStyle: long
+    - search:
+        provider: duckduckgo
+        target: _blank
   docker.yaml: ""

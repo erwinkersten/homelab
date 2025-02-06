@@ -9,5 +9,5 @@ helmCharts:
     repo: https://kubernetes-sigs.github.io/metrics-server/
     version: 3.12.2 # renovate: registryUrl=https://kubernetes-sigs.github.io/metrics-server
     releaseName: metrics-server
-    namespace: matrics-server
+    namespace: metrics-server
     valuesFile: metrics-server-values.yaml

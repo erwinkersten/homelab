@@ -42,29 +42,33 @@ data:
               url: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
               username: "{{HOMEPAGE_VAR_PROXMOX_USER}}"
               password: "{{HOMEPAGE_VAR_PROXMOX_API_KEY}}"
-    - Observability:
+        - ArgoCD:
+            icon: argocd.svg
+            href: https://argocd.local.erwinkersten.com
+            description: ArgoCD
+            widget:
+              type: argocd
+              url: https://argocd.local.erwinkersten.com
+              key: "{{HOMEPAGE_VAR_ARGOCD_API_KEY}}"
+    - Services:
         - Grafana:
             icon: grafana.svg
-            href: https://grafana.local.erwinkersten.com
+            href: "{{HOMEPAGE_VAR_GRAFANA_URL}}"
             description: Grafana
         - Prometheus:
             icon: prometheus.svg
-            href: https://prometheus.local.erwinkersten.com
+            href: "{{HOMEPAGE_VAR_PROMETHEUS_URL}}"
             description: Prometheus
         - alertmanager:
             icon: alertmanager.svg
-            href: https://alertmanager.local.erwinkersten.com
+            href: "{{HOMEPAGE_VAR_ALERTMANAGER_URL}}"
             description: Alertmanager
-        - hubble:
+        - Hubble:
             icon: cilium.svg
-            href: https://hubble.local.erwinkersten.com
+            href: "{{HOMEPAGE_VAR_HUBBLE_URL}}"
             description: Hubble
+        
   widgets.yaml: |
-    - search:
-      provider: duckduckgo
-      focus: true # Optional, will set focus to the search bar on page load
-      showSearchSuggestions: true # Optional, will show search suggestions. Defaults to false
-      target: _blank # One of _self, _blank, _parent or _top
     - datetime:
         text_size: xl
         # 4 januari 2023 om 13:51:25 PST

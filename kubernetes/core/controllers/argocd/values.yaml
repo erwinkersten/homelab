@@ -4,7 +4,9 @@ configs:
     create: true
     application.resourceTrackingMethod: annotation+label
     admin.enabled: true
+    accounts.readonly: apiKey
     url: https://argocd.local.erwinkersten.com
+    
   cmp:
     create: true
     plugins:
@@ -19,6 +21,7 @@ configs:
     policy.csv: |
       g, argocd:admin, role:admin
       g, argocd:read_all, role:readonly
+      g, readonly, role:readonly
 
 crds:
   install: true

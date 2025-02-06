@@ -89,7 +89,7 @@ data:
               type: qnap
               url: "{{HOMEPAGE_VAR_QNAP_URL}}"
               username: "{{HOMEPAGE_VAR_QNAP_USER}}"
-              password: "{{HOMEPAGE_VAR_QNAP_PASSWORD}"
+              password: "{{HOMEPAGE_VAR_QNAP_PASSWORD}}"
        
   widgets.yaml: |
     - search:

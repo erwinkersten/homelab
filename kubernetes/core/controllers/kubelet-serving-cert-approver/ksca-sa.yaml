@@ -1,0 +1,136 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: kubelet-serving-cert-approver
+    app.kubernetes.io/name: kubelet-serving-cert-approver
+  name: kubelet-serving-cert-approver
+  namespace: kubelet-serving-cert-approver
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    app.kubernetes.io/instance: kubelet-serving-cert-approver
+    app.kubernetes.io/name: kubelet-serving-cert-approver
+  name: leader-election:kubelet-serving-cert-approver
+  namespace: kubelet-serving-cert-approver
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - get
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/instance: kubelet-serving-cert-approver
+    app.kubernetes.io/name: kubelet-serving-cert-approver
+  name: certificates:kubelet-serving-cert-approver
+rules:
+- apiGroups:
+  - certificates.k8s.io
+  resources:
+  - certificatesigningrequests
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - certificates.k8s.io
+  resources:
+  - certificatesigningrequests/approval
+  verbs:
+  - update
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
+- apiGroups:
+  - certificates.k8s.io
+  resourceNames:
+  - kubernetes.io/kubelet-serving
+  resources:
+  - signers
+  verbs:
+  - approve
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/instance: kubelet-serving-cert-approver
+    app.kubernetes.io/name: kubelet-serving-cert-approver
+  name: events:kubelet-serving-cert-approver
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: kubelet-serving-cert-approver
+    app.kubernetes.io/name: kubelet-serving-cert-approver
+  name: events:kubelet-serving-cert-approver
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: events:kubelet-serving-cert-approver
+subjects:
+- kind: ServiceAccount
+  name: kubelet-serving-cert-approver
+  namespace: kubelet-serving-cert-approver
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: kubelet-serving-cert-approver
+    app.kubernetes.io/name: kubelet-serving-cert-approver
+  name: leader-election:kubelet-serving-cert-approver
+  namespace: kubelet-serving-cert-approver
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: leader-election:kubelet-serving-cert-approver
+subjects:
+- kind: ServiceAccount
+  name: kubelet-serving-cert-approver
+  namespace: kubelet-serving-cert-approver
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: kubelet-serving-cert-approver
+    app.kubernetes.io/name: kubelet-serving-cert-approver
+  name: kubelet-serving-cert-approver
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: certificates:kubelet-serving-cert-approver
+subjects:
+- kind: ServiceAccount
+  name: kubelet-serving-cert-approver
+  namespace: kubelet-serving-cert-approver

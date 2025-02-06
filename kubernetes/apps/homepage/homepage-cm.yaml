@@ -132,6 +132,24 @@ data:
               password: "{{HOMEPAGE_VAR_QNAP_PASSWORD}}"
        
   widgets.yaml: |
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+          label: "cluster"
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+    - resources:
+        backend: resources
+        expanded: true
+        cpu: true
+        memory: true
+        network: default  
     - search:
         provider: duckduckgo
         target: _blank

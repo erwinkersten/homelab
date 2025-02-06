@@ -81,6 +81,15 @@ data:
               type: argocd
               url: "{{HOMEPAGE_VAR_ARGOCD_URL}}"
               key: "{{HOMEPAGE_VAR_ARGOCD_API_KEY}}"
+        - QNAP:
+            icon: qnap.svg
+            href: "{{HOMEPAGE_VAR_QNAP_URL}}"
+            description: NAS1
+            widget:
+              type: qnap
+              url: "{{HOMEPAGE_VAR_QNAP_URL}}"
+              username: "{{HOMEPAGE_VAR_QNAP_USER}}"
+              password: "{{HOMEPAGE_VAR_QNAP_PASSWORD}"
        
   widgets.yaml: |
     - search:

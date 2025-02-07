@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     talos = {
-        version = "0.7.0"
-        source = "siderolabs/talos"
+        version = "0.7.1"
+        source = "siderolabs/talos" 
     }
     proxmox = {
         version = "0.69.1"

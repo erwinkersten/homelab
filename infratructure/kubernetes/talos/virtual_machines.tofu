@@ -39,7 +39,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     ssd          = true
     file_format  = "raw"
     size         = 20
-    file_id      = proxmox_virtual_environment_download_file.this.id
+    file_id      = proxmox_virtual_environment_download_file.this[each.key].id
   }
   
   boot_order = ["scsi0"]

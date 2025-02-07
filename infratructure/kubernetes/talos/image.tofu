@@ -7,6 +7,11 @@ locals {
   update_version = coalesce(var.image.update_version, var.image.version)
   update_schematic = coalesce(var.image.update_schematic, var.image.schematic)
   update_image_id = "${talos_image_factory_schematic.updated.id}_${local.update_version}"
+  computed_nodes = {
+    for k, v in var.nodes : k => merge(v, {
+      image_id = v.update ? local.update_image_id : local.image_id
+    })
+  }
 }
 
 resource "talos_image_factory_schematic" "this" {
@@ -18,13 +23,17 @@ resource "talos_image_factory_schematic" "updated" {
 }
 
 resource "proxmox_virtual_environment_download_file" "this" {
-  content_type            = "iso"
-  datastore_id            = local.datastore
-  node_name               = local.node_name
-  file_name               = "talos-${var.node.update ? local.update_image_id : local.image_id}-nocloud-amd64.img"
-  url                     = "${var.image.factory_url}/image/${var.node.update ? local.update_image_id : local.image_id}/nocloud-amd64.raw.gz"
-  # file_name               = "talos-${local.version}-nocloud-amd64.img"
-  # url                     = "https://factory.talos.dev/image/787b79bb847a07ebb9ae37396d015617266b1cef861107eaec85968ad7b40618/${local.version}/nocloud-amd64.raw.gz"
+  # Use the precomputed map; the keys are the same as those of var.nodes (static)
+  for_each = local.computed_nodes
+
+  node_name    = each.value.host_node
+  content_type = "iso"
+  datastore_id = local.datastore
+
+  file_name = "talos-${split("_", each.value.image_id)[0]}-${split("_", each.value.image_id)[1]}-${var.image.platform}-${var.image.arch}.img"
+
+  url = "${var.image.factory_url}/image/${split("_", each.value.image_id)[0]}/${split("_", each.value.image_id)[1]}/${var.image.platform}-${var.image.arch}.raw.gz"
+
   decompression_algorithm = "gz"
-  overwrite               = false
+  overwrite               = false 
 }

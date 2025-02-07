@@ -39,7 +39,7 @@ variable "nodes" {
   description = "Node Configuration"
   type = map(object({
     machine_type  = string
-    update        = bool
+    update        = optional(bool, false)
     ip            = string
     cidr          = string
     gateway       = string

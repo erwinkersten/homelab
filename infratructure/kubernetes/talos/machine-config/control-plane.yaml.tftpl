@@ -1,8 +1,7 @@
 machine:
   kubelet:
     extraArgs:
-      # Needed for Netbird agent https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/#enabling-unsafe-sysctls
-      allowed-unsafe-sysctls: net.ipv4.conf.all.src_valid_mark
+      rotate-server-certificates: true # Required for metrics-server to ensure TLS validation due to error "cannot validate certificate because it doesn't contain any IP SANs"
   network:
     hostname: ${hostname}
   nodeLabels:

@@ -1,4 +1,7 @@
 machine:
+  kubelet:
+    extraArgs:
+      rotate-server-certificates: true # Required for metrics-server to ensure TLS validation due to error "cannot validate certificate because it doesn't contain any IP SANs"
   network:
     hostname: ${hostname}
   nodeLabels:

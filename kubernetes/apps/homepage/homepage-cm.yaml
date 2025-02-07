@@ -15,8 +15,9 @@ data:
       image: https://images.unsplash.com/photo-1637825891028-564f672aa42c
       blur: xl
       brightness: 90
-      opacity: 60   
+      opacity: 80  
     language: en
+    color: indigo
     hideErrors: false # true, false
     theme: dark
     useEqualHeights: true
@@ -30,15 +31,15 @@ data:
       Status:
         header: true
         style: row
-        columns: 2
+        columns: 3
       Observability:
         header: true
         style: row
-        columns: 2
+        columns: 4
       Network:
         header: true
         style: row
-        columns: 2
+        columns: 4
       Other:
         header: true
         style: row

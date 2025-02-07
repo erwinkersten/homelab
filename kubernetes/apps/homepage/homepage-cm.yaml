@@ -10,17 +10,15 @@ data:
     mode: cluster
   settings.yaml: |
     title: Homepage
-    headerStyle: clean
+    headerStyle: boxed
+    background: 
+      image: https://images.unsplash.com/photo-1637825891028-564f672aa42c
+      blur: xl
+      brightness: 90
+      opacity: 60   
     language: en
     hideErrors: false # true, false
-    background:
-      image: https://images.wallpaperscraft.com/image/single/night_starry_sky_trees_1334550_5049x2840.jpg
-      # blur: sm # sm, md, xl... see https://tailwindcss.com/docs/backdrop-blur
-      # saturate: 100 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
-      # brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
-      # opacity: 100 # 0-100
     theme: dark
-    color: slate
     useEqualHeights: true
     quicklaunch:
       searchDescriptions: true
@@ -134,19 +132,12 @@ data:
           show: true
           cpu: true
           memory: true
-          showLabel: true
-    - resources:
-        backend: resources
-        expanded: true
-        cpu: true
-        memory: true
-        network: default  
+          showLabel: true 
     - search:
         provider: duckduckgo
         target: _blank
     - datetime:
         text_size: sm
-        # 4 januari 2023 om 13:51:25 PST
         locale: nl
         format:
           dateStyle: long

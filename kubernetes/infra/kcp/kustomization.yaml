@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kcp
+
+resources:
+  - kcp-ns.yaml
+  - kcp-admin-client-cert.yaml
+
+helmCharts:
+  - name: kcp
+    repo: https://kcp-dev.github.io/helm-charts
+    version: 0.9.3 # renovate: github-releases=kcp-dev/helm-charts
+    releaseName: kcp
+    namespace: kcp
+    valuesFile: kcp-values.yaml
+
+# https://github.com/kcp-dev/helm-charts/blob/main/charts/kcp/values.yaml

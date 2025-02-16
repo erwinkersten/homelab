@@ -20,7 +20,7 @@ terraform.rc
 
 # Ignore OpenTofu output files
 **/output/*
-**/config/**/*.yaml
+**/config/**/*
 
 # Ignore openTofu state files
 *.tfstate

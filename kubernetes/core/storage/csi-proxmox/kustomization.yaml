@@ -13,3 +13,6 @@ helmCharts:
 # Project: https://github.com/sergelogvinov/proxmox-csi-plugin
 # Helm Chart documentation: https://github.com/sergelogvinov/proxmox-csi-plugin/tree/main/charts/proxmox-csi-plugin
 # Helm Chart values: https://github.com/sergelogvinov/proxmox-csi-plugin/blob/main/charts/proxmox-csi-plugin/values.yaml
+#
+# Validation CSI Plugin is working 
+# `kubectl get csistoragecapacities -ocustom-columns=CLASS:.storageClassName,AVAIL:.capacity,ZONE:.nodeTopology.matchLabels -A`

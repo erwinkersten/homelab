@@ -30,7 +30,7 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
-          envFrom:
+          envFrom: # includes the HOMEPAGE_ALLOWED_HOSTS environment variable
             - secretRef:
                 name: homepage-secret
           volumeMounts:

@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - observability-ns.yaml
+  - grafana-admin-secret.yaml
   - alertmanager-http-route.yaml
   - grafana-http-route.yaml
   - prometheus-http-route.yaml

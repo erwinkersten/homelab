@@ -10,6 +10,12 @@ crds:
     enabled: true
     forceConflicts: false
 
+grafana:
+  admin:
+    existingSecret: "grafana-admin-secret"
+    userKey: admin-user
+    passwordKey: admin-password
+
 prometheus:
   prometheusSpec:
     nodeSelector:

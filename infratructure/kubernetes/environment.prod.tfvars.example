@@ -1,0 +1,79 @@
+proxmox = {
+  endpoint     = "https://yourproxmoxdnsname:8006" # no slash at the end
+  username     = "root@pam"
+  password     = "password"
+  insecure     = false                 # set to true if you are using self-signed certificates
+  api_token    = "example-api-token"
+  cluster_name = "homelab" 
+}
+
+image = {
+  version          = "v1.9.1"                      # Version of Talos
+  update_version   = "v1.9.3"                      # renovate: github-releases=siderolabs/talos
+  schematic        = "/talos/image/schematic.yaml" # file("${path.module}/talos/image/schematic.yaml")
+  proxmox_iso_ds   = "data"
+  proxmox_node     = "pve-01"
+}
+
+cluster = {
+  name            = "clustername.local"           # Cluster name
+  environment     = "prod"                        # Environment directory type (dev|staging|prod) used to store the cluster configuration files
+  endpoint        = "10.10.10.100"                # Cluster endpoint  (IP or DNS)
+  gateway         = "10.10.10.1"                  # Gateway IP
+  cidr            = "20"                          # CIDR                        
+  proxmox_cluster = "homelab"                     # Proxmox cluster name 
+  talos_version   = "v1.9.1"                      # Talos version                   
+}
+
+# Nodes to be provisioned in the Kubernetes cluster.
+# Extend this list by adding additional nodes as required.
+# Below is an example with one control plane node and one worker node.
+# Adjust all values according to your environment.
+#
+# The key of the map is the name of the node, the value is a map with the following
+# attributes:  
+# - machine_type: controlplane or worker
+# - update: true or false
+# - ip: IP address of the node
+# - cidr: CIDR of the node
+# - gateway: Gateway IP
+# - cpu: Number of CPUs
+# - disk_size: Disk size in GB
+# - ram_dedicated: RAM in MB
+# - host_node: Proxmox node name
+# - vm_id: Proxmox VM ID
+# - datastore_id: Proxmox datastore ID
+
+nodes = {
+  "k8-prod-ctrl-00" = {
+    machine_type  = "controlplane"
+    #update        = true
+    ip            = "10.10.10.110"
+    cidr          = "20"
+    gateway       = "10.10.10.1"
+    cpu           = 2
+    disk_size     = 20
+    ram_dedicated = "4096"
+    host_node     = "pve-01"
+    vm_id         = 500
+    datastore_id  = "ssd"
+  }
+  "k8-prod-work-00" = {
+    machine_type  = "worker"
+    #update        = true
+    ip            = "10.10.10.113"
+    cidr          = "20"
+    gateway       = "10.10.10.1"
+    cpu           = 2
+    disk_size     = 20
+    ram_dedicated = "16384"
+    host_node     = "pve-01"
+    vm_id         = 503
+    datastore_id  = "nvme"
+  }
+}
+
+argocd = {
+  name      = "argocd-helm"
+  namespace = "argocd"
+}

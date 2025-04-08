@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     proxmox = {
-        version = ">=0.69.1"
+        version = ">=0.74.1"
         source = "bpg/proxmox"
     }
     kubernetes = {

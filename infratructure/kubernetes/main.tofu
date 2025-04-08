@@ -1,3 +1,13 @@
+data "external" "check_proxmox" {
+  program = [
+    "bash",
+    "${path.module}/bootstrap/proxmox-csi-plugin/scripts/check-role.sh",
+    "CSI",
+    "kubernetes-csi@pve",
+    var.proxmox.endpoint,
+    var.proxmox.api_token
+  ]
+}
 
 module "talos" {
   source = "./talos"
@@ -53,16 +63,19 @@ module "proxmox_csi_plugin" {
   }
 
   proxmox = var.proxmox
+  role_already_exists   = data.external.check_proxmox.result.role_exists == "true"
+  user_already_exists   = data.external.check_proxmox.result.user_exists == "true"
+  
 }
 
-# module "argocd" {
-#   depends_on = [module.talos]
-#   source = "./bootstrap/argocd"
+module "argocd" {
+  depends_on = [module.talos]
+  source = "./bootstrap/argocd"
 
-#   providers = {
-#     helm = helm
-#     kubernetes = kubernetes
-#   }
+  providers = {
+    helm = helm
+    kubernetes = kubernetes
+  }
   
-#   argocd = var.argocd 
-# }
+  argocd = var.argocd 
+}

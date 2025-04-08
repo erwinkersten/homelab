@@ -5,7 +5,7 @@ terraform {
         source = "siderolabs/talos" 
     }
     proxmox = {
-        version = "0.69.1"
+        version = "0.74.1"
         source = "bpg/proxmox"
     }
     kubernetes = {
@@ -24,7 +24,7 @@ provider "proxmox" {
   username  = var.proxmox.username
   password  = var.proxmox.password
   insecure  = var.proxmox.insecure
-  api_token = var.proxmox.api_token
+  #api_token = var.proxmox.api_token
   ssh {
     agent = true
   }

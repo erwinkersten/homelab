@@ -35,5 +35,13 @@ resource "proxmox_virtual_environment_download_file" "this" {
   url = "${var.image.factory_url}/image/${split("_", each.value.image_id)[0]}/${split("_", each.value.image_id)[1]}/${var.image.platform}-${var.image.arch}.raw.gz"
 
   decompression_algorithm = "gz"
-  overwrite               = false 
+  overwrite               = true
+  
+  lifecycle {
+    ignore_changes = [file_name] # Ignore changes to the file if it already exists
+  }
+}
+
+output "download_urls" {
+  value = [for node in local.computed_nodes : "${var.image.factory_url}/image/${split("_", node.image_id)[0]}/${split("_", node.image_id)[1]}/${var.image.platform}-${var.image.arch}.raw.gz"]
 }

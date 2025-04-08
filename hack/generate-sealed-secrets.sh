@@ -7,5 +7,5 @@ if ! command -v kubeseal &> /dev/null; then
     exit 1
 fi
 
-kubeseal --format yaml --controller-namespace sealed-secrets < kubernetes/apps/homepage/homepage-secret.yaml_encrypt  > kubernetes/apps/homepage/homepage-secret.yaml
-kubeseal --format yaml --controller-namespace sealed-secrets < kubernetes/infra/observability/grafana-admin-secret.yaml_encrypt > kubernetes/infra/observability/grafana-admin-secret.yaml
+kubeseal --format yaml --controller-namespace sealed-secrets < ../kubernetes/apps/homepage/homepage-secret.yaml_encrypt  > ../kubernetes/apps/homepage/homepage-secret.yaml
+kubeseal --format yaml --controller-namespace sealed-secrets < ../kubernetes/infra/observability/kube-prometheus-stack/grafana-admin-secret.yaml_encrypt > ../kubernetes/infra/observability/kube-prometheus-stack/grafana-admin-secret.yaml

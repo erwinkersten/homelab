@@ -7,6 +7,14 @@ If you encounter issues during installation or upgrades related to CRDs, refer t
 - [kube-prometheus-stack Helm Chart Documentation](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
 - [Helm Chart README](https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/README.md)
 
+
+***ISSUE: crds are not installed by the chart at the moment. ***
+```
+LATEST=$(curl -s https://api.github.com/repos/prometheus-operator/prometheus-operator/releases/latest | jq -cr .tag_name)
+curl -sL https://github.com/prometheus-operator/prometheus-operator/releases/download/${LATEST}/bundle.yaml | kubectl create -f -
+```
+
+
 ---
 
 ### Sealing Secrets with Kubeseal

@@ -12,7 +12,7 @@ if [[ -z "$ENV" || ! "$ENV" =~ ^(dev|prod)$ ]]; then
 fi
 
 # Change to the script's directory to ensure relative paths work
-cd "$SCRIPT_DIR/../infratructure/kubernetes" || exit 1
+cd "$SCRIPT_DIR/../infrastructure/kubernetes" || exit 1
 
 tofu workspace select $ENV || tofu workspace new $ENV
 tofu taint kubernetes_secret.proxmox-csi-plugin-secret

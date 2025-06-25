@@ -40,18 +40,18 @@ resource "azurerm_network_security_group" "main" {
   resource_group_name = var.resource_group_name
 
   security_rule {
-    name                       = "SSH"
+    name                       = "SSH.Tcp"
     priority                   = 1001
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = var.allowed_source_ip4v_addr
+    source_address_prefix      = var.allowed_source_ipv4_add # only allow SSH from this IP
     destination_address_prefix = "*"
   }
   security_rule {
-    name                       = "HTTP"
+    name                       = "HTTP.Tcp"
     priority                   = 1002
     direction                  = "Inbound"
     access                     = "Allow"
@@ -62,7 +62,7 @@ resource "azurerm_network_security_group" "main" {
     destination_address_prefix = "*"
   }
   security_rule {
-    name                       = "HTTPS"
+    name                       = "HTTPS.Tcp"
     priority                   = 1003
     direction                  = "Inbound"
     access                     = "Allow"
@@ -73,14 +73,14 @@ resource "azurerm_network_security_group" "main" {
     destination_address_prefix = "*"    
   } 
   security_rule {
-    name                       = "Newt"
+    name                       = "WireGuard.Udp"
     priority                   = 1004
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Udp"
     source_port_range          = "*"
     destination_port_range     = "51820"
-    source_address_prefix      = "*"
+    source_address_prefix      = var.allowed_source_ipv4_add # only allow WireGuard Clients from this IP
     destination_address_prefix = "*"    
   } 
 

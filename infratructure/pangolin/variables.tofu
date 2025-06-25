@@ -51,7 +51,7 @@ variable "nsg_name" {
   default     = "pangolin-nsg"
 }
 
-variable "allowed_source_ip4v_addr" {
+variable "allowed_source_ipv4_add" {
   description = "Allowed source IPv4 address for SSH access"
   type        = string
   sensitive   = true

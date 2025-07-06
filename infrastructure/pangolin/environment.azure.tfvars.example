@@ -1,8 +1,8 @@
-admin_username = "<your-admin-username>"
-ssh_public_key_path = "~/.ssh/id_rsa.pub"
-subscription_id = "<your-subscription-id>"
-tenant_id = "<your-tenant-id>"
-client_id = "<your-client-id>"   
-client_secret = "<your-client-secret>"
-location = "westeurope"
-allowed_source_ipv4_add = "<your-ip>/32"
+admin_username           = "<your-admin-username>"    # Username for the admin user on the VM
+ssh_public_key_path      = "~/.ssh/id_rsa.pub"        # Path to your SSH public key for VM access
+subscription_id          = "<your-subscription-id>"   # Azure Subscription ID
+tenant_id                = "<your-tenant-id>"         # Azure Active Directory Tenant ID
+client_id                = "<your-client-id>"         # Azure Service Principal Client ID
+client_secret            = "<your-client-secret>"     # Azure Service Principal Client Secret
+location                 = "westeurope"               # Azure region to deploy resources in
+allowed_source_ipv4_add  = "<your-ip>/32"             # Allowed IPv4 address (CIDR) to access secure endpoints (SSH and Wireguuard)

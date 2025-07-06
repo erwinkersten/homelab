@@ -51,7 +51,7 @@ variable "nsg_name" {
   default     = "tpod-nsg"
 }
 
-variable "allowed_source_ipv4_add" {
+variable "allowed_source_ipv4_addr" {
   description = "Allowed source IPv4 address for SSH access"
   type        = string
   sensitive   = true

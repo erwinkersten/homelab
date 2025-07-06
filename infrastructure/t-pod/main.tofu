@@ -181,7 +181,7 @@ resource "azurerm_virtual_machine_extension" "main" {
   type_handler_version = "2.0"
 
   settings = jsonencode({
-    # fileUris = ["https://raw.githubusercontent.com/erwinkersten/homelab/main/infrastructure/t-pod/bootstrap/setup.sh"]
+    fileUris = ["https://raw.githubusercontent.com/erwinkersten/homelab/feature/tpod-azure-vm/infrastructure/t-pod/bootstrap/setup.sh"]
     commandToExecute = "bash setup.sh"
   })
 }

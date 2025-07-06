@@ -47,7 +47,7 @@ resource "azurerm_network_security_group" "main" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = var.allowed_source_ipv4_add # only allow SSH from this IP
+    source_address_prefix      = var.allowed_source_ipv4_addr # only allow SSH from this IP
     destination_address_prefix = "*"
   }
   security_rule {
@@ -80,7 +80,7 @@ resource "azurerm_network_security_group" "main" {
     protocol                   = "Udp"
     source_port_range          = "*"
     destination_port_range     = "51820"
-    source_address_prefix      = var.allowed_source_ipv4_add # only allow WireGuard Clients from this IP
+    source_address_prefix      = var.allowed_source_ipv4_addr # only allow WireGuard Clients from this IP
     destination_address_prefix = "*"    
   } 
 

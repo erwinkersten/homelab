@@ -4,18 +4,18 @@
     "config:recommended"
   ],
   "kustomize": {
-    "fileMatch": [
-      "(^|/)kustomization\\.ya?ml(\\.j2)?$"
+    "managerFilePatterns": [
+      "/(^|/)kustomization\\.ya?ml(\\.j2)?$/"
     ]
   },
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "\\.tftpl$",
-        "\\.tofu$",
-        "\\.yaml$",
-        "\\.sh$"
+      "managerFilePatterns": [
+        "/\\.tftpl$/",
+        "/\\.tofu$/",
+        "/\\.yaml$/",
+        "/\\.sh$/"
       ],
       "matchStrings": [
         "(?<currentValue>[\\w+\\.\\-]*)['\",;]*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?"

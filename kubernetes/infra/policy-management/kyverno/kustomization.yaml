@@ -8,7 +8,7 @@ resources:
 helmCharts:
   - name: kyverno
     repo: https://kyverno.github.io/kyverno/
-    version: 3.5.0 # renovate
+    version: 3.5.1 # renovate
     releaseName: kyverno
     namespace: kyverno
     valuesFile: kyverno-values.yaml

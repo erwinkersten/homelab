@@ -547,7 +547,7 @@ resource "azurerm_linux_virtual_machine" "main" {
 
   os_disk {
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = "StandardSSD_LRS"
     name                 = "${var.vm_name}-osdisk"
   }
 
@@ -565,7 +565,7 @@ resource "azurerm_managed_disk" "data" {
   name                 = "${var.vm_name}-datadisk"
   location             = var.location
   resource_group_name  = var.resource_group_name
-  storage_account_type = "Standard_LRS"
+  storage_account_type = "StandardSSD_LRS"
   create_option        = "Empty"
   disk_size_gb         = var.data_disk_size_gb
 }

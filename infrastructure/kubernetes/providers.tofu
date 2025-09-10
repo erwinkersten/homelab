@@ -31,17 +31,17 @@ provider "proxmox" {
 }
 
 provider "kubernetes" {
-  host = module.talos.kube_config.kubernetes_client_configuration.host
-  client_certificate = base64decode(module.talos.kube_config.kubernetes_client_configuration.client_certificate)
-  client_key = base64decode(module.talos.kube_config.kubernetes_client_configuration.client_key)
-  cluster_ca_certificate = base64decode(module.talos.kube_config.kubernetes_client_configuration.ca_certificate)
+  host = try(module.talos.kube_config.kubernetes_client_configuration.host, null)
+  client_certificate = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.client_certificate), null)
+  client_key = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.client_key), null)
+  cluster_ca_certificate = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.ca_certificate), null)
 }
 
 provider "helm" {
-  kubernetes {
-    host = module.talos.kube_config.kubernetes_client_configuration.host
-    client_certificate = base64decode(module.talos.kube_config.kubernetes_client_configuration.client_certificate)
-    client_key = base64decode(module.talos.kube_config.kubernetes_client_configuration.client_key)
-    cluster_ca_certificate = base64decode(module.talos.kube_config.kubernetes_client_configuration.ca_certificate)
+  kubernetes = {
+    host = try(module.talos.kube_config.kubernetes_client_configuration.host, null)
+    client_certificate = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.client_certificate), null)
+    client_key = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.client_key), null)
+    cluster_ca_certificate = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.ca_certificate), null)
   }
 }

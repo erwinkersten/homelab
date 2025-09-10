@@ -51,3 +51,9 @@ variable "cilium" {
     install = string
   })
 }
+
+variable "skip_health_check" {
+  description = "Skip cluster health check (useful during import operations)"
+  type        = bool
+  default     = false
+}

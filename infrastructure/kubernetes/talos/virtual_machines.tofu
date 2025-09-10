@@ -39,13 +39,14 @@ resource "proxmox_virtual_environment_vm" "this" {
     ssd          = true
     file_format  = "raw"
     size         = 20
-    file_id      = proxmox_virtual_environment_download_file.this[each.key].id
+    # Use the base image for all VMs initially
+    file_id = local.node_image_refs[each.key].file_id
   }
   
   boot_order = ["scsi0"]
 
   operating_system {
-    type = "l26" # Linux Kernel 2.6 - 6.X.
+    type = "l26"
   }
 
   initialization {
@@ -59,5 +60,14 @@ resource "proxmox_virtual_environment_vm" "this" {
         address = "dhcp"
       }
     }
+  }
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes = [
+      description,
+      tags,
+      disk[0].file_id  # Always ignore file_id changes - use Talos upgrade instead
+    ]
   }
 }

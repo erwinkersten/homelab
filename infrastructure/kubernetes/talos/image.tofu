@@ -7,6 +7,12 @@ locals {
   update_version = coalesce(var.image.update_version, var.image.version)
   update_schematic = coalesce(var.image.update_schematic, var.image.schematic)
   update_image_id = "${talos_image_factory_schematic.updated.id}_${local.update_version}"
+  
+  # Create unique image sets to avoid duplicates
+  unique_images = toset([
+    for k, v in var.nodes : v.update ? local.update_image_id : local.image_id
+  ])
+  
   computed_nodes = {
     for k, v in var.nodes : k => merge(v, {
       image_id = v.update ? local.update_image_id : local.image_id
@@ -22,26 +28,44 @@ resource "talos_image_factory_schematic" "updated" {
   schematic = local.update_schematic
 }
 
-resource "proxmox_virtual_environment_download_file" "this" {
-  # Use the precomputed map; the keys are the same as those of var.nodes (static)
-  for_each = local.computed_nodes
+# Download unique images only
+resource "proxmox_virtual_environment_download_file" "unique_images" {
+  for_each = local.unique_images
 
-  node_name    = each.value.host_node
+  node_name    = local.node_name
   content_type = "iso"
   datastore_id = local.datastore
 
-  file_name = "talos-${split("_", each.value.image_id)[0]}-${split("_", each.value.image_id)[1]}-${var.image.platform}-${var.image.arch}.img"
+  file_name = "talos-${split("_", each.value)[0]}-${split("_", each.value)[1]}-${var.image.platform}-${var.image.arch}.img"
 
-  url = "${var.image.factory_url}/image/${split("_", each.value.image_id)[0]}/${split("_", each.value.image_id)[1]}/${var.image.platform}-${var.image.arch}.raw.gz"
+  url = "${var.image.factory_url}/image/${split("_", each.value)[0]}/${split("_", each.value)[1]}/${var.image.platform}-${var.image.arch}.raw.gz"
 
   decompression_algorithm = "gz"
-  overwrite               = true
+  overwrite               = false  # Set to false initially
   
+  # Add lifecycle to prevent recreation issues
   lifecycle {
-    ignore_changes = [file_name] # Ignore changes to the file if it already exists
+    ignore_changes = [
+      file_name,
+      url
+    ]
+  }
+}
+
+# Create references for each node
+locals {
+  node_image_refs = {
+    for k, v in local.computed_nodes : k => {
+      file_id = proxmox_virtual_environment_download_file.unique_images[v.image_id].id
+      image_id = v.image_id
+    }
   }
 }
 
 output "download_urls" {
-  value = [for node in local.computed_nodes : "${var.image.factory_url}/image/${split("_", node.image_id)[0]}/${split("_", node.image_id)[1]}/${var.image.platform}-${var.image.arch}.raw.gz"]
+  value = [for image_id in local.unique_images : "${var.image.factory_url}/image/${split("_", image_id)[0]}/${split("_", image_id)[1]}/${var.image.platform}-${var.image.arch}.raw.gz"]
+}
+
+output "node_image_refs" {
+  value = local.node_image_refs
 }

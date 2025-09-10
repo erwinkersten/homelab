@@ -60,10 +60,16 @@ variable "argocd" {
   })
 }
 
-# variable "cilium" {
-#   description = "Cilium Configuration"
-#   type = object({
-#     values  = string
-#     install = string
-#   })
-# }
+variable "cilium" {
+  description = "Cilium configuration"
+  type = object({
+    values  = string
+    install = string
+  })
+}
+
+variable "skip_health_check" {
+  description = "Skip cluster health check (useful during import operations)"
+  type        = bool
+  default     = false
+}

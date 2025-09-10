@@ -1,4 +1,6 @@
 data "external" "check_proxmox" {
+  count = var.skip_health_check ? 0 : 1
+  
   program = [
     "bash",
     "${path.module}/bootstrap/proxmox-csi-plugin/scripts/check-role.sh",
@@ -36,9 +38,14 @@ module "talos" {
 
   # Inject all nodes from the *.auto.tfvars file.
   nodes = var.nodes
+  
+  # Pass through skip_health_check variable
+  skip_health_check = var.skip_health_check
 }
 
 module "sealed_secrets" {
+  count = var.skip_health_check ? 0 : 1
+  
   depends_on = [module.talos]
   source = "./bootstrap/sealed-secrets"
 
@@ -54,6 +61,8 @@ module "sealed_secrets" {
 }
 
 module "proxmox_csi_plugin" {
+  count = var.skip_health_check ? 0 : 1
+  
   depends_on = [module.talos]
   source = "./bootstrap/proxmox-csi-plugin"
 
@@ -63,12 +72,14 @@ module "proxmox_csi_plugin" {
   }
 
   proxmox = var.proxmox
-  role_already_exists   = data.external.check_proxmox.result.role_exists == "true"
-  user_already_exists   = data.external.check_proxmox.result.user_exists == "true"
+  role_already_exists   = var.skip_health_check ? false : data.external.check_proxmox[0].result.role_exists == "true"
+  user_already_exists   = var.skip_health_check ? false : data.external.check_proxmox[0].result.user_exists == "true"
   
 }
 
 module "argocd" {
+  count = var.skip_health_check ? 0 : 1
+  
   depends_on = [module.talos]
   source = "./bootstrap/argocd"
 

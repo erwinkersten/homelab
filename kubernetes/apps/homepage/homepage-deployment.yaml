@@ -24,7 +24,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: homepage
-          image: "ghcr.io/gethomepage/homepage:v1.4.6" # renovate: docker=ghcr.io/gethomepage/homepage
+          image: "ghcr.io/gethomepage/homepage:v1.5.0" # renovate: docker=ghcr.io/gethomepage/homepage
           imagePullPolicy: Always
           ports:
             - name: http

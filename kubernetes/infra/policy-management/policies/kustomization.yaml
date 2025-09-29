@@ -4,5 +4,5 @@ kind: Kustomization
 helmCharts:
   - name: kyverno-policies
     releaseName: kyverno-policies
-    version: 3.5.1
+    version: 3.5.2
     repo: https://kyverno.github.io/kyverno/

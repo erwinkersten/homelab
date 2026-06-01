@@ -5,7 +5,7 @@ terraform {
         source = "siderolabs/talos" 
     }
     proxmox = {
-        version = "0.107.0"
+        version = "0.108.0"
         source = "bpg/proxmox"
     }
     kubernetes = {

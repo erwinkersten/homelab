@@ -24,7 +24,7 @@ metadata:
   name: cilium-install
   namespace: kube-system
 spec:
-  backoffLimit: 10
+  backoffLimit: 20
   template:
     metadata:
       labels:
@@ -33,21 +33,6 @@ spec:
       restartPolicy: OnFailure
       tolerations:
         - operator: Exists
-        - effect: NoSchedule
-          operator: Exists
-        - effect: NoExecute
-          operator: Exists
-        - effect: PreferNoSchedule
-          operator: Exists
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-          effect: NoSchedule
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-          effect: NoExecute
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-          effect: PreferNoSchedule
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -60,6 +45,8 @@ spec:
       containers:
       - name: cilium-install
         image: quay.io/cilium/cilium-cli-ci:latest
+        imagePullPolicy: IfNotPresent
+        workingDir: /root/app
         env:
         - name: KUBERNETES_SERVICE_HOST
           valueFrom:
@@ -76,10 +63,10 @@ spec:
           - cilium
           - install
           - --version=v1.19.4 # renovate: github-releases=cilium/cilium
-          - --set
-          - kubeProxyReplacement=true
+          - --repository
+          - https://helm.cilium.io/
           - --values
-          - values.yaml
+          - /root/app/values.yaml
       volumes:
         - name: values
           configMap:

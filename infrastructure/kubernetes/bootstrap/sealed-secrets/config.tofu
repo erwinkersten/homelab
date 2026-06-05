@@ -1,16 +1,16 @@
-resource "kubernetes_namespace" "sealed-secrets" {
+resource "kubernetes_namespace_v1" "sealed-secrets" {
   metadata {
     name = "sealed-secrets"
   }
 }
 
-resource "kubernetes_secret" "sealed-secrets-key" {
-  depends_on = [ kubernetes_namespace.sealed-secrets ]
-  type = "kubernetes.io/tls"
+resource "kubernetes_secret_v1" "sealed-secrets-key" {
+  depends_on = [kubernetes_namespace_v1.sealed-secrets]
+  type       = "kubernetes.io/tls"
 
   metadata {
-    name = "sealed-secrets-bootstrap-key"
-    namespace = "sealed-secrets"
+    name      = "sealed-secrets-bootstrap-key"
+    namespace = kubernetes_namespace_v1.sealed-secrets.metadata[0].name
     labels = {
       "sealedsecrets.bitnami.com/sealed-secrets-key" = "active"
     }

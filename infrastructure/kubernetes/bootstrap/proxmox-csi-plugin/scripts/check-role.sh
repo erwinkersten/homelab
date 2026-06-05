@@ -1,4 +1,3 @@
-
 #!/bin/bash
 set -euo pipefail
 
@@ -7,15 +6,17 @@ USER_ID=$2
 PROXMOX_URL=$3
 API_TOKEN=$4
 
-# Check Role existence
-role_exists=$(curl -sk -H "Authorization: PVEAPIToken=${API_TOKEN}" \
-  ${PROXMOX_URL}/api2/json/access/roles | jq ".data[] | select(.roleid==\"${ROLE_ID}\") | .roleid" | wc -l)
+role_count=$(curl -sk -H "Authorization: PVEAPIToken=${API_TOKEN}" \
+  "${PROXMOX_URL}/api2/json/access/roles" \
+  | jq "[.data[] | select(.roleid==\"${ROLE_ID}\")] | length")
 
-# Check User existence
-user_exists=$(curl -sk -H "Authorization: PVEAPIToken=${API_TOKEN}" \
-  ${PROXMOX_URL}/api2/json/access/users | jq ".data[] | select(.userid==\"${USER_ID}\") | .userid" | wc -l)
+user_count=$(curl -sk -H "Authorization: PVEAPIToken=${API_TOKEN}" \
+  "${PROXMOX_URL}/api2/json/access/users" \
+  | jq "[.data[] | select(.userid==\"${USER_ID}\")] | length")
 
-echo "{ \"role_exists\": "'"${role_exists}"'", \"user_exists\": "'"${user_exists}"'" }"
+role_exists="false"
+user_exists="false"
+[ "${role_count}" -gt 0 ] && role_exists="true"
+[ "${user_count}" -gt 0 ] && user_exists="true"
 
-
-# curl -s -H 'Authorization: PVEAPIToken=root@pam!terraform=blabla' https://pve-01.local.erwinkersten.com:8006/api2/json/access/roles
+echo "{\"role_exists\": \"${role_exists}\", \"user_exists\": \"${user_exists}\"}"

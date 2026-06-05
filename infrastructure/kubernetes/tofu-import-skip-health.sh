@@ -33,7 +33,7 @@ for vm_config in "${VMs[@]}"; do
   
   tofu import \
     -var-file="environment.${ENV}.tfvars" \
-    -var="skip_health_check=true" \
+    -var="import_mode=true" \
     "module.talos.proxmox_virtual_environment_vm.this[\"${vm_name}\"]" \
     "${node_name}/${vm_id}"
     

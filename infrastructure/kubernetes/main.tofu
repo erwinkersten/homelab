@@ -1,6 +1,6 @@
 data "external" "check_proxmox" {
-  count = var.skip_health_check ? 0 : 1
-  
+  count = var.import_mode ? 0 : 1
+
   program = [
     "bash",
     "${path.module}/bootstrap/proxmox-csi-plugin/scripts/check-role.sh",
@@ -13,80 +13,57 @@ data "external" "check_proxmox" {
 
 module "talos" {
   source = "./talos"
-  
+
   providers = {
     proxmox = proxmox
   }
 
-  # Inject Talos Images variables from the *.auto.tfvars file.
   image = {
-    version           = var.image.version
-    update_version    = var.image.update_version
-    schematic         = file("${path.module}/${var.image.schematic}")
-    proxmox_iso_ds    = var.image.proxmox_iso_ds
-    proxmox_node      = var.image.proxmox_node
+    file_id         = var.image.file_id
+    update_file_id  = var.image.update_file_id
+    installer_image = var.image.installer_image
   }
 
-  # Reference Cilium (CNI) inlineManifests for control plane nodes.
   cilium = {
     values  = file("${path.module}/../../kubernetes/core/network/cilium/values.yaml")
     install = file("${path.module}/talos/inline-manifests/cilium-install.yaml")
   }
 
-  # Inject cluster variables from the *.auto.tfvars file.
   cluster = var.cluster
+  nodes   = var.nodes
 
-  # Inject all nodes from the *.auto.tfvars file.
-  nodes = var.nodes
-  
-  # Pass through skip_health_check variable
-  skip_health_check = var.skip_health_check
+  import_mode = var.import_mode
 }
 
 module "sealed_secrets" {
-  count = var.skip_health_check ? 0 : 1
-  
+  count = var.import_mode ? 0 : 1
+
   depends_on = [module.talos]
-  source = "./bootstrap/sealed-secrets"
+  source     = "./bootstrap/sealed-secrets"
 
   providers = {
     kubernetes = kubernetes
   }
 
-  # openssl req -x509 -days 365 -nodes -newkey rsa:4096 -keyout sealed-secrets.key -out sealed-secrets.cert -subj "/CN=sealed-secret/O=sealed-secret"
   certificate = {
     cert = file("${path.module}/../../config/${var.cluster.environment}/certificates/sealed-secrets.cert")
-    key = file("${path.module}/../../config/${var.cluster.environment}/certificates/sealed-secrets.key")
+    key  = file("${path.module}/../../config/${var.cluster.environment}/certificates/sealed-secrets.key")
   }
 }
 
 module "proxmox_csi_plugin" {
-  count = var.skip_health_check ? 0 : 1
-  
+  count = var.import_mode ? 0 : 1
+
   depends_on = [module.talos]
-  source = "./bootstrap/proxmox-csi-plugin"
+  source     = "./bootstrap/proxmox-csi-plugin"
 
   providers = {
-    proxmox = proxmox
+    proxmox    = proxmox
     kubernetes = kubernetes
   }
 
-  proxmox = var.proxmox
-  role_already_exists   = var.skip_health_check ? false : data.external.check_proxmox[0].result.role_exists == "true"
-  user_already_exists   = var.skip_health_check ? false : data.external.check_proxmox[0].result.user_exists == "true"
-  
+  proxmox             = var.proxmox
+  role_already_exists = var.import_mode ? false : data.external.check_proxmox[0].result.role_exists == "true"
+  user_already_exists = var.import_mode ? false : data.external.check_proxmox[0].result.user_exists == "true"
 }
 
-module "argocd" {
-  count = var.skip_health_check ? 0 : 1
-  
-  depends_on = [module.talos]
-  source = "./bootstrap/argocd"
-
-  providers = {
-    helm = helm
-    kubernetes = kubernetes
-  }
-  
-  argocd = var.argocd 
-}

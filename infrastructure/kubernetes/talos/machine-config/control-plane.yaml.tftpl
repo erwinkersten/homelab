@@ -2,8 +2,6 @@ machine:
   kubelet:
     extraArgs:
       rotate-server-certificates: true # Required for metrics-server to ensure TLS validation due to error "cannot validate certificate because it doesn't contain any IP SANs"
-  network:
-    hostname: ${hostname}
   nodeLabels:
     topology.kubernetes.io/region: ${cluster_name}
     topology.kubernetes.io/zone: ${node_name}
@@ -17,8 +15,8 @@ cluster:
     disabled: true
   #need to install gateway api manifests before cilium deployment. GatewayClass acceptance 
   extraManifests:
-    - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
-    - https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+    - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/v0.8.4/deploy/standalone-install.yaml # renovate: github-releases=alex1989hu/kubelet-serving-cert-approver
+    - https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.7.2/components.yaml # renovate: github-releases=kubernetes-sigs/metrics-server
     - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver
     - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_gateways.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver
     - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver

@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - cm-namespace.yaml
-  - cm-cluster-issuer.yaml
   - cloudflare-api-token-sealed.yaml
 
 helmCharts:

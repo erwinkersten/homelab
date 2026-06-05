@@ -1,16 +1,9 @@
 variable "image" {
-  description = "Talos image configuration"
+  description = "Talos image file references. Obtain file_id and installer_image from tofu-images.sh output."
   type = object({
-    factory_url     = optional(string, "https://factory.talos.dev")
-    schematic       = string
-    version         = string
-    update_schematic = optional(string)
-    update_version  = optional(string)
-    update_image    = optional(bool, false)
-    arch            = optional(string, "amd64")
-    platform        = optional(string, "nocloud")
-    proxmox_iso_ds  = optional(string, "local")
-    proxmox_node    = string
+    file_id          = string           # Proxmox file ID for the current image, e.g. "data:iso/talos-...-v1.9.1-nocloud-amd64.img"
+    update_file_id   = optional(string) # Proxmox file ID for the upgrade image; falls back to file_id when not set
+    installer_image  = optional(string) # Full installer URL for talosctl upgrade, e.g. "factory.talos.dev/installer/{schematic}:v1.9.3"
   })
 }
 
@@ -22,8 +15,10 @@ variable "cluster" {
     endpoint        = string
     gateway         = string
     cidr            = number
-    talos_version   = string
-    proxmox_cluster = string
+    talos_version      = string
+    kubernetes_version = string # must be compatible with talos_version — see https://www.talos.dev/latest/introduction/support-matrix/
+    proxmox_cluster    = string
+    bootstrap_node     = string # IP of the control plane node used for bootstrap and kubeconfig retrieval
   })
 }
 
@@ -39,21 +34,21 @@ variable "nodes" {
     vm_id         = number
     cpu           = number
     ram_dedicated = number
-    update = optional(bool, false)
+    update        = optional(bool, false)
     disk_size     = number
   }))
 }
 
 variable "cilium" {
-  description = "Cilium configuration"
+  description = "Cilium CNI configuration injected as inline manifests"
   type = object({
     values  = string
     install = string
   })
 }
 
-variable "skip_health_check" {
-  description = "Skip cluster health check (useful during import operations)"
+variable "import_mode" {
+  description = "When true, skips cluster bootstrapping (machine config apply, health check, ArgoCD, etc.) to allow safe VM import into state."
   type        = bool
   default     = false
 }

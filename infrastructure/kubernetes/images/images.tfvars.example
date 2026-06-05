@@ -1,0 +1,46 @@
+proxmox = {
+  endpoint = "https://yourproxmoxdnsname:8006"
+  username = "root@pam"
+  password = "password"
+  insecure = false
+}
+
+# Finding available Talos versions
+# ─────────────────────────────────
+# All releases are listed on GitHub:
+#   https://github.com/siderolabs/talos/releases
+#
+# The Talos Image Factory lets you browse versions, pick system extensions,
+# and generate a schematic ID interactively:
+#   https://factory.talos.dev
+#
+# The schematic ID is derived from talos/image/schematic.yaml in this repo.
+# If you change the extensions in that file, a new schematic ID is generated
+# automatically when you run ./tofu-images.sh.
+#
+# ─────────────────────────────────
+# Each entry below downloads one Talos image version to the specified Proxmox nodes.
+# The map key is a stable label you choose — it never changes even when the version does.
+#
+# Workflow:
+#   1. Check https://github.com/siderolabs/talos/releases for the target version.
+#   2. Add a new entry below for that version.
+#   3. Run: ./tofu-images.sh prod
+#   4. Copy the printed file_id and installer_image into environment.prod.tfvars.
+#   5. Set update = true on the nodes to upgrade, then run: ./tofu-deploy.sh prod
+#   6. After all nodes are upgraded, remove the old entry and re-run tofu-images.sh
+#      to clean up the old image from Proxmox storage.
+
+images = {
+  "v1-12-8" = {
+    version        = "v1.12.8"
+    proxmox_nodes  = ["pve-01"]
+    proxmox_iso_ds = "data"
+  }
+  # Uncomment and populate when upgrading:
+  # "v1-9-3" = {
+  #   version        = "v1.9.3"
+  #   proxmox_nodes  = ["pve-01"]
+  #   proxmox_iso_ds = "data"
+  # }
+}

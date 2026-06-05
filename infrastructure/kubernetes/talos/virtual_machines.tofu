@@ -38,8 +38,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     discard      = "on"
     ssd          = true
     file_format  = "raw"
-    size         = 20
-    # Use the base image for all VMs initially
+    size    = each.value.disk_size
     file_id = local.node_image_refs[each.key].file_id
   }
   
@@ -67,7 +66,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     ignore_changes = [
       description,
       tags,
-      disk[0].file_id  # Always ignore file_id changes - use Talos upgrade instead
+      disk[0].file_id
     ]
   }
 }

@@ -12,10 +12,6 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "3.1.0"
     }
-    helm = {
-      source = "hashicorp/helm"
-      version = "3.1.1"
-    }
   }
 }
 
@@ -37,11 +33,3 @@ provider "kubernetes" {
   cluster_ca_certificate = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.ca_certificate), null)
 }
 
-provider "helm" {
-  kubernetes = {
-    host = try(module.talos.kube_config.kubernetes_client_configuration.host, null)
-    client_certificate = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.client_certificate), null)
-    client_key = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.client_key), null)
-    cluster_ca_certificate = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.ca_certificate), null)
-  }
-}

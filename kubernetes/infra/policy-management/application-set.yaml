@@ -34,3 +34,4 @@ spec:
           prune: true
         syncOptions:
           - Replace=true # https://kyverno.io/docs/installation/platform-notes/#notes-for-argocd-users
+          - SkipDryRunOnMissingResource=true

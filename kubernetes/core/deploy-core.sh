@@ -40,9 +40,10 @@ with_retry() {
   local attempts=0
   until "$@"; do
     attempts=$((attempts + 1))
-    if [[ $attempts -gt 12 ]]; then
+    if [[ $attempts -ge 12 ]]; then
       echo "ERROR: Command still failing after $attempts attempts: $*"
       return 1
+    fi
     fi
     echo "  Retrying in 5s... (attempt $attempts/12)"
     sleep 5

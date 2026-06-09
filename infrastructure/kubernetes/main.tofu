@@ -1,16 +1,3 @@
-data "external" "check_proxmox" {
-  count = var.import_mode ? 0 : 1
-
-  program = [
-    "bash",
-    "${path.module}/bootstrap/proxmox-csi-plugin/scripts/check-role.sh",
-    "CSI",
-    "kubernetes-csi@pve",
-    var.proxmox.endpoint,
-    var.proxmox.api_token
-  ]
-}
-
 module "talos" {
   source = "./talos"
 
@@ -35,35 +22,14 @@ module "talos" {
   import_mode = var.import_mode
 }
 
-module "sealed_secrets" {
-  count = var.import_mode ? 0 : 1
-
-  depends_on = [module.talos]
-  source     = "./bootstrap/sealed-secrets"
-
-  providers = {
-    kubernetes = kubernetes
-  }
-
-  certificate = {
-    cert = file("${path.module}/../../config/${var.cluster.environment}/certificates/sealed-secrets.cert")
-    key  = file("${path.module}/../../config/${var.cluster.environment}/certificates/sealed-secrets.key")
-  }
-}
-
 module "proxmox_csi_plugin" {
   count = var.import_mode ? 0 : 1
 
-  depends_on = [module.talos]
-  source     = "./bootstrap/proxmox-csi-plugin"
+  source = "./bootstrap/proxmox-csi-plugin"
 
   providers = {
-    proxmox    = proxmox
-    kubernetes = kubernetes
+    proxmox = proxmox
   }
 
-  proxmox             = var.proxmox
-  role_already_exists = var.import_mode ? false : data.external.check_proxmox[0].result.role_exists == "true"
-  user_already_exists = var.import_mode ? false : data.external.check_proxmox[0].result.user_exists == "true"
+  proxmox = var.proxmox
 }
-

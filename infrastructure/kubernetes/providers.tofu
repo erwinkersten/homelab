@@ -8,10 +8,6 @@ terraform {
         version = "0.108.0"
         source = "bpg/proxmox"
     }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "3.2.0"
-    }
   }
 }
 
@@ -24,12 +20,5 @@ provider "proxmox" {
   ssh {
     agent = true
   }
-}
-
-provider "kubernetes" {
-  host = try(module.talos.kube_config.kubernetes_client_configuration.host, null)
-  client_certificate = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.client_certificate), null)
-  client_key = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.client_key), null)
-  cluster_ca_certificate = try(base64decode(module.talos.kube_config.kubernetes_client_configuration.ca_certificate), null)
 }
 

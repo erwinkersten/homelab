@@ -32,8 +32,8 @@ if [[ ! "$ENV" =~ ^(dev|prod)$ ]]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$SCRIPT_DIR"
 CERT="${SCRIPT_DIR}/../config/${ENV}/certificates/sealed-secrets.cert"
-
 # Check if kubeseal is installed
 if ! command -v kubeseal &> /dev/null; then
     echo "Error: kubeseal is not installed or not in PATH"

@@ -104,6 +104,12 @@ echo "==> Sealed-Secrets namespace and bootstrap key"
 # persisted keypair rather than generating a new one that would be lost on destroy.
 # This was previously done by OpenTofu but moved here to avoid Kubernetes provider
 # TLS timeouts during the turbulent bootstrap window.
+SEALED_SECRETS_CERT="${CONFIG_DIR}/certificates/sealed-secrets.cert"
+SEALED_SECRETS_KEY="${CONFIG_DIR}/certificates/sealed-secrets.key"
+if [[ ! -f "$SEALED_SECRETS_CERT" || ! -f "$SEALED_SECRETS_KEY" ]]; then
+  echo "ERROR: Sealed-Secrets cert/key not found in ${CONFIG_DIR}/certificates (run setup-config.sh first)"
+  exit 1
+fi
 apply_manifest <<EOF
 apiVersion: v1
 kind: Namespace

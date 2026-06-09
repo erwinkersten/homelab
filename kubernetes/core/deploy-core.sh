@@ -58,9 +58,10 @@ apply_manifest() {
   local attempts=0
   until echo "$manifest" | kubectl apply -f -; do
     attempts=$((attempts + 1))
-    if [[ $attempts -gt 12 ]]; then
+    if [[ $attempts -ge 12 ]]; then
       echo "ERROR: kubectl apply failed after $attempts attempts"
       return 1
+    fi
     fi
     echo "  Retrying in 5s... (attempt $attempts/12)"
     sleep 5

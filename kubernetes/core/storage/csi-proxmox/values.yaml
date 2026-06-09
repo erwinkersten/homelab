@@ -1,7 +1,16 @@
-# Deploy Node CSI driver only on worker nodes
+# Deploy Node CSI driver on all non-control-plane nodes.
+# Using nodeAffinity instead of nodeSelector so we don't depend on a custom
+# label being applied to workers — control-plane nodes always have
+# node-role.kubernetes.io/control-plane set by Kubernetes itself.
 node:
-  nodeSelector:
-    topology.kubernetes.io/role: worker
+  nodeSelector: {}
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
   tolerations:
     - operator: Exists
 

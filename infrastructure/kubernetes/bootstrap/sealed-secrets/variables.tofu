@@ -1,6 +1,1 @@
-variable "certificate" {
-  type = object({
-    cert = string
-    key = string
-  })
-}
+# No variables — this module is now empty. See config.tofu for context.

@@ -75,8 +75,8 @@ echo "==> Waiting for Kubernetes API to be ready"
 # and then rely on with_retry to absorb subsequent blips.
 wait_for_api
 
-# Build a kustomize directory and apply it as a retryable unit.
-# Captures build output so kubectl can be retried without re-running kustomize.
+# Build and apply a kustomize directory as a retryable unit.
+# Note: when wrapped in with_retry, kustomize build will be re-run on each retry.
 apply_kustomize() {
   local dir="$1"
   local output

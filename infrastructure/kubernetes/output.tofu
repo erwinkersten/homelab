@@ -19,6 +19,20 @@ resource "local_file" "kube_config" {
   file_permission = "0600"
 }
 
+resource "local_file" "csi_config" {
+  count    = var.import_mode ? 0 : 1
+  content  = var.import_mode ? "" : <<-EOF
+    clusters:
+    - url: "${var.proxmox.endpoint}/api2/json"
+      insecure: ${var.proxmox.insecure}
+      token_id: "${module.proxmox_csi_plugin[0].token_id}"
+      token_secret: "${module.proxmox_csi_plugin[0].token_secret}"
+      region: ${var.proxmox.cluster_name}
+    EOF
+  filename        = "../../config/${var.cluster.environment}/csi-config.yaml"
+  file_permission = "0600"
+}
+
 output "kube_config" {
   value     = var.import_mode ? null : module.talos.kube_config.kubeconfig_raw
   sensitive = true

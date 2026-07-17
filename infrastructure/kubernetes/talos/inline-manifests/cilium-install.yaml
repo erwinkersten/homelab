@@ -62,7 +62,7 @@ spec:
         command:
           - cilium
           - install
-          - --version=v1.19.5 # renovate: github-releases=cilium/cilium
+          - --version=v1.19.6 # renovate: github-releases=cilium/cilium
           - --repository
           - https://helm.cilium.io/
           - --values

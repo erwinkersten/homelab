@@ -32,14 +32,14 @@ proxmox = {
 #      to clean up the old image from Proxmox storage.
 
 images = {
-  "v1-12-8" = {
-    version        = "v1.12.8"
+  "current" = {
+    version        = "v1.12.8" # renovate: github-releases=siderolabs/talos
     proxmox_nodes  = ["pve-01"]
     proxmox_iso_ds = "data"
   }
   # Uncomment and populate when upgrading:
-  # "v1-9-3" = {
-  #   version        = "v1.9.3"
+  # "next" = {
+  #   version        = "v1.13.0"
   #   proxmox_nodes  = ["pve-01"]
   #   proxmox_iso_ds = "data"
   # }

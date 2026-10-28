@@ -1,8 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "helpers:pinGitHubActionDigests"
   ],
+  "timezone": "Europe/Amsterdam",
+  "schedule": [
+    "before 6am"
+  ],
+  "labels": [
+    "renovate"
+  ],
+  "semanticCommits": "disabled",
+  "prConcurrentLimit": 10,
   "kustomize": {
     "managerFilePatterns": [
       "/(^|/)kustomization\\.ya?ml(\\.j2)?$/"
@@ -11,18 +21,40 @@
   "customManagers": [
     {
       "customType": "regex",
+      "description": "Inline version pins, e.g. `image: repo:1.2.3 # renovate: docker=repo` or `--version=v1.2.3 # renovate: github-releases=org/repo`. The version must directly precede the comment.",
       "managerFilePatterns": [
         "/\\.tftpl$/",
         "/\\.tofu$/",
         "/\\.yaml$/",
-        "/\\.sh$/"
+        "/\\.sh$/",
+        "/\\.example$/"
       ],
       "matchStrings": [
-        "(?<currentValue>[\\w+\\.\\-]*)['\",;]*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?"
+        "(?:^|[=:\\s\"'])(?<currentValue>v?\\d[\\w+\\.\\-]*)['\",;]*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?\\s?(extractVersion=(?<extractVersion>\\S+))?"
+      ]
+    },
+    {
+      "customType": "regex",
+      "description": "URL version pins, e.g. `https://raw.githubusercontent.com/org/repo/v1.2.3/path/file.yaml # renovate: github-tags=org/repo`. The version is read from the URL path segment.",
+      "managerFilePatterns": [
+        "/\\.tftpl$/",
+        "/\\.yaml$/"
+      ],
+      "matchStrings": [
+        "https?://\\S+/(?<currentValue>v?\\d+\\.\\d+\\.\\d+[\\w\\.\\-]*)/\\S*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?"
       ]
     }
   ],
   "packageRules": [
+    {
+      "description": "Let new releases of core and infra components settle before proposing them",
+      "matchFileNames": [
+        "kubernetes/core/**",
+        "kubernetes/infra/**",
+        "infrastructure/**"
+      ],
+      "minimumReleaseAge": "3 days"
+    },
     {
       "groupName": "container images",
       "matchPackageNames": [
@@ -31,23 +63,43 @@
       ]
     },
     {
+      "description": "Automerge low-risk app image updates once the validate workflow passes",
+      "matchPackageNames": [
+        "ghcr.io/corentinth/it-tools**",
+        "ghcr.io/gethomepage/homepage**"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "automerge": true
+    },
+    {
       "groupName": "Cilium",
       "matchPackageNames": [
         "/cilium/"
       ]
     },
     {
-      "matchManagers": [
-        "terraform"
-      ],
-      "matchDepTypes": [
-        "provider",
-        "required_provider"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch"
+      "groupName": "Kyverno",
+      "matchPackageNames": [
+        "kyverno",
+        "kyverno-policies"
+      ]
+    },
+    {
+      "groupName": "Gateway API",
+      "matchPackageNames": [
+        "kubernetes-sigs/gateway-api"
+      ]
+    },
+    {
+      "description": "Talos and Kubernetes move together; check the Talos support matrix before applying",
+      "groupName": "Talos",
+      "matchPackageNames": [
+        "siderolabs/talos",
+        "kubernetes/kubernetes"
       ]
     }
   ]

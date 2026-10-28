@@ -13,20 +13,13 @@ cluster:
       name: none
   proxy:
     disabled: true
-  #need to install gateway api manifests before cilium deployment. GatewayClass acceptance 
+  # Gateway API CRDs must exist before Cilium starts so the GatewayClass is accepted.
+  # Standard channel bundle; keep the version in step with kubernetes/core/crds and
+  # with what Cilium supports.
   extraManifests:
     - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/v0.8.4/deploy/standalone-install.yaml # renovate: github-releases=alex1989hu/kubelet-serving-cert-approver
     - https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.7.2/components.yaml # renovate: github-releases=kubernetes-sigs/metrics-server
-    - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver
-    - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_gateways.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver
-    - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver
-    - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_referencegrants.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver
-    - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_grpcroutes.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver 
-    - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/experimental/gateway.networking.k8s.io_tcproutes.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver
-    - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver
-    - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/experimental/gateway.networking.k8s.io_udproutes.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver
-    - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/experimental/gateway.networking.k8s.io_backendtlspolicies.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver
-    - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/experimental/gateway.networking.k8s.io_backendlbpolicies.yaml # renovate: github-tags=kubernetes-sigs/gateway-api versioning=semver
+    - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.3/standard-install.yaml # renovate: github-releases=kubernetes-sigs/gateway-api
   inlineManifests:
   - name: cilium-values
     contents: |

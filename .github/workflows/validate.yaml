@@ -21,7 +21,7 @@ jobs:
     name: kustomize build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       # helm and kustomize ship with the ubuntu-24.04 runner image
       - name: Show tool versions
@@ -55,7 +55,7 @@ jobs:
     name: tofu validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: opentofu/setup-opentofu@v2
         with:

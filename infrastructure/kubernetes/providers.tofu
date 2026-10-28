@@ -5,7 +5,7 @@ terraform {
         source = "siderolabs/talos" 
     }
     proxmox = {
-        version = "0.116.0"
+        version = "0.118.1"
         source = "bpg/proxmox"
     }
   }

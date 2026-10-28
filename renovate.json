@@ -11,6 +11,7 @@
   "customManagers": [
     {
       "customType": "regex",
+      "description": "Inline version pins, e.g. `image: repo:1.2.3 # renovate: docker=repo` or `--version=v1.2.3 # renovate: github-releases=org/repo`. The version must directly precede the comment.",
       "managerFilePatterns": [
         "/\\.tftpl$/",
         "/\\.tofu$/",
@@ -18,7 +19,18 @@
         "/\\.sh$/"
       ],
       "matchStrings": [
-        "(?<currentValue>[\\w+\\.\\-]*)['\",;]*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?"
+        "(?:^|[=:\\s\"'])(?<currentValue>v?\\d[\\w+\\.\\-]*)['\",;]*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?"
+      ]
+    },
+    {
+      "customType": "regex",
+      "description": "URL version pins, e.g. `https://raw.githubusercontent.com/org/repo/v1.2.3/path/file.yaml # renovate: github-tags=org/repo`. The version is read from the URL path segment.",
+      "managerFilePatterns": [
+        "/\\.tftpl$/",
+        "/\\.yaml$/"
+      ],
+      "matchStrings": [
+        "https?://\\S+/(?<currentValue>v?\\d+\\.\\d+\\.\\d+[\\w\\.\\-]*)/\\S*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?"
       ]
     }
   ],
@@ -37,17 +49,16 @@
       ]
     },
     {
-      "matchManagers": [
-        "terraform"
-      ],
-      "matchDepTypes": [
-        "provider",
-        "required_provider"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch"
+      "groupName": "Kyverno",
+      "matchPackageNames": [
+        "kyverno",
+        "kyverno-policies"
+      ]
+    },
+    {
+      "groupName": "Gateway API",
+      "matchPackageNames": [
+        "kubernetes-sigs/gateway-api"
       ]
     }
   ]

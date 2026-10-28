@@ -23,9 +23,11 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: azure/setup-helm@v4
-
-      - uses: imranismail/setup-kustomize@v2
+      # helm and kustomize ship with the ubuntu-24.04 runner image
+      - name: Show tool versions
+        run: |
+          kustomize version
+          helm version --short
 
       - name: Build every kustomization with Helm enabled
         shell: bash

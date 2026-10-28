@@ -26,10 +26,11 @@
         "/\\.tftpl$/",
         "/\\.tofu$/",
         "/\\.yaml$/",
-        "/\\.sh$/"
+        "/\\.sh$/",
+        "/\\.example$/"
       ],
       "matchStrings": [
-        "(?:^|[=:\\s\"'])(?<currentValue>v?\\d[\\w+\\.\\-]*)['\",;]*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?"
+        "(?:^|[=:\\s\"'])(?<currentValue>v?\\d[\\w+\\.\\-]*)['\",;]*\\s*#\\s?renovate: (?<datasource>\\S+)=(?<depName>\\S+)\\s?(registry=(?<registryUrl>\\S+))?\\s?(versioning=(?<versioning>\\S+))?\\s?(extractVersion=(?<extractVersion>\\S+))?"
       ]
     },
     {
@@ -91,6 +92,14 @@
       "groupName": "Gateway API",
       "matchPackageNames": [
         "kubernetes-sigs/gateway-api"
+      ]
+    },
+    {
+      "description": "Talos and Kubernetes move together; check the Talos support matrix before applying",
+      "groupName": "Talos",
+      "matchPackageNames": [
+        "siderolabs/talos",
+        "kubernetes/kubernetes"
       ]
     }
   ]

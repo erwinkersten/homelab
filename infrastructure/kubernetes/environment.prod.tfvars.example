@@ -26,8 +26,8 @@ cluster = {
   # talos_version must match the version in images.prod.tfvars.
   # kubernetes_version must be supported by that Talos release, see
   # https://www.talos.dev/latest/introduction/support-matrix/
-  talos_version      = "v1.12.8" # renovate: github-releases=siderolabs/talos
-  kubernetes_version = "1.35.4" # renovate: github-releases=kubernetes/kubernetes extractVersion=^v(?<version>.+)$
+  talos_version      = "v1.14.4" # renovate: github-releases=siderolabs/talos
+  kubernetes_version = "1.37.1" # renovate: github-releases=kubernetes/kubernetes extractVersion=^v(?<version>.+)$
   bootstrap_node     = "10.10.10.110"    # IP of the control plane node used for bootstrap
 }
 

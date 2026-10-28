@@ -1,0 +1,82 @@
+name: Validate
+
+on:
+  pull_request:
+    paths:
+      - "kubernetes/**"
+      - "infrastructure/**"
+      - "renovate.json"
+      - ".github/workflows/validate.yaml"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  kustomize:
+    name: kustomize build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: azure/setup-helm@v4
+
+      - uses: imranismail/setup-kustomize@v2
+
+      - name: Build every kustomization with Helm enabled
+        shell: bash
+        run: |
+          set -uo pipefail
+          failed=()
+          while IFS= read -r file; do
+            dir=$(dirname "$file")
+            echo "::group::$dir"
+            if kustomize build --enable-helm "$dir" > /dev/null; then
+              echo "ok"
+            else
+              echo "::error file=$file::kustomize build failed for $dir"
+              failed+=("$dir")
+            fi
+            echo "::endgroup::"
+          done < <(find kubernetes -name 'kustomization.yaml' -not -path '*/charts/*' | sort)
+          if (( ${#failed[@]} > 0 )); then
+            printf 'Failed kustomizations:\n'
+            printf '  %s\n' "${failed[@]}"
+            exit 1
+          fi
+
+  opentofu:
+    name: tofu validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_wrapper: false
+
+      - name: Validate every OpenTofu module
+        shell: bash
+        run: |
+          set -uo pipefail
+          failed=()
+          while IFS= read -r dir; do
+            echo "::group::$dir"
+            if tofu -chdir="$dir" init -backend=false -input=false > /dev/null \
+               && tofu -chdir="$dir" validate -no-color; then
+              echo "ok"
+            else
+              echo "::error::tofu validate failed for $dir"
+              failed+=("$dir")
+            fi
+            echo "::endgroup::"
+          done < <(find infrastructure -name '*.tofu' -not -path '*/.terraform/*' -exec dirname {} \; | sort -u)
+          if (( ${#failed[@]} > 0 )); then
+            printf 'Failed modules:\n'
+            printf '  %s\n' "${failed[@]}"
+            exit 1
+          fi

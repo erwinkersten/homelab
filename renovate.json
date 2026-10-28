@@ -1,8 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "helpers:pinGitHubActionDigests"
   ],
+  "timezone": "Europe/Amsterdam",
+  "schedule": [
+    "before 6am"
+  ],
+  "labels": [
+    "renovate"
+  ],
+  "semanticCommits": "disabled",
+  "prConcurrentLimit": 10,
   "kustomize": {
     "managerFilePatterns": [
       "/(^|/)kustomization\\.ya?ml(\\.j2)?$/"
@@ -36,11 +46,33 @@
   ],
   "packageRules": [
     {
+      "description": "Let new releases of core and infra components settle before proposing them",
+      "matchFileNames": [
+        "kubernetes/core/**",
+        "kubernetes/infra/**",
+        "infrastructure/**"
+      ],
+      "minimumReleaseAge": "3 days"
+    },
+    {
       "groupName": "container images",
       "matchPackageNames": [
         "ghcr.io/corentinth/it-tools**",
         "ghcr.io/gethomepage/homepage**"
       ]
+    },
+    {
+      "description": "Automerge low-risk app image updates once the validate workflow passes",
+      "matchPackageNames": [
+        "ghcr.io/corentinth/it-tools**",
+        "ghcr.io/gethomepage/homepage**"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "automerge": true
     },
     {
       "groupName": "Cilium",

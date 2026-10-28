@@ -57,7 +57,12 @@ jobs:
 
       - uses: opentofu/setup-opentofu@v1
         with:
+          tofu_version: 1.10.5 # renovate: github-releases=opentofu/opentofu extractVersion=^v(?<version>.+)$
           tofu_wrapper: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check tofu is installed
+        run: tofu version
 
       - name: Validate every OpenTofu module
         shell: bash

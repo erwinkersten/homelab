@@ -6,4 +6,4 @@ kind: Kustomization
 # Keep in step with the version Cilium supports:
 # https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/
 resources:
-  - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.3/standard-install.yaml # renovate: github-releases=kubernetes-sigs/gateway-api
+  - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.7.0/standard-install.yaml # renovate: github-releases=kubernetes-sigs/gateway-api

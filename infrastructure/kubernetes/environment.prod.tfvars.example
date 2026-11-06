@@ -13,7 +13,7 @@ proxmox = {
 image = {
   file_id         = "data:iso/talos-<schematic-id>-v1.9.1-nocloud-amd64.img"
   update_file_id  = null # set to the upgrade image file_id when upgrading nodes
-  installer_image = null # set to the upgrade installer_image URL when upgrading nodes
+  installer_image = null # target for talos-upgrade.sh, e.g. "factory.talos.dev/nocloud-installer/<schematic-id>:v1.14.5"
 }
 
 cluster = {
@@ -23,7 +23,9 @@ cluster = {
   gateway         = "10.10.10.1"         # Gateway IP
   cidr            = 20                   # Subnet prefix length
   proxmox_cluster = "homelab"            # Proxmox cluster name
-  # talos_version must match the version in images.prod.tfvars.
+  # Renovate keeps these at the latest releases, which is fine for a new cluster.
+  # For an existing cluster, keep talos_version at what the nodes run, and use
+  # talos-upgrade.sh to move kubernetes_version up one minor version at a time.
   # kubernetes_version must be supported by that Talos release, see
   # https://www.talos.dev/latest/introduction/support-matrix/
   talos_version      = "v1.14.5" # renovate: github-releases=siderolabs/talos
@@ -32,8 +34,9 @@ cluster = {
 }
 
 # Nodes to be provisioned in the Kubernetes cluster.
-# Set update = true on a node to trigger a Talos upgrade via the upgrade-node.sh script.
-# Control planes are always upgraded before workers.
+# Upgrade nodes with ./talos-upgrade.sh, which reads this block and image.installer_image.
+# update = true still triggers an upgrade through upgrade-node.sh during tofu-deploy.sh,
+# but nodes of the same type can then upgrade in parallel.
 nodes = {
   "k8-prod-ctrl-00" = {
     machine_type  = "controlplane"

@@ -3,7 +3,7 @@ variable "image" {
   type = object({
     file_id          = string           # Proxmox file ID for the current image, e.g. "data:iso/talos-...-v1.9.1-nocloud-amd64.img"
     update_file_id   = optional(string) # Proxmox file ID for the upgrade image; falls back to file_id when not set
-    installer_image  = optional(string) # Full installer URL for talosctl upgrade, e.g. "factory.talos.dev/installer/{schematic}:v1.9.3"
+    installer_image  = optional(string) # Full installer URL for talosctl upgrade, e.g. "factory.talos.dev/nocloud-installer/{schematic}:v1.13.3"
   })
 }
 

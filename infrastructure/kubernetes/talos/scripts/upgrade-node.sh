@@ -3,7 +3,7 @@
 # Talos Node Upgrade Script
 # Usage: upgrade-node.sh <node_ip> <node_name> <installer_image> <talos_config_path>
 #
-# installer_image — full image URL, e.g. factory.talos.dev/installer/{schematic}:v1.9.3
+# installer_image — full image URL, e.g. factory.talos.dev/nocloud-installer/{schematic}:v1.13.3 (platform-specific, not the generic "installer")
 # Obtain from: tofu -chdir=images output -json images | jq -r '.[].installer_image'
 
 set -euo pipefail

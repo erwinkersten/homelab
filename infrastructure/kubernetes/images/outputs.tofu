@@ -11,7 +11,10 @@ output "images" {
         for node in img.proxmox_nodes :
         node => proxmox_virtual_environment_download_file.this["${label}_${node}"].id
       }
-      installer_image = "factory.talos.dev/installer/${talos_image_factory_schematic.this[label].id}:${img.version}"
+      # Must be the platform-specific installer. The generic "installer" is for bare metal:
+      # nodes upgraded with it boot as platform "metal", ignore the Proxmox cloud-init
+      # data, and come back with a DHCP address and a generated hostname.
+      installer_image = "factory.talos.dev/${img.platform}-installer/${talos_image_factory_schematic.this[label].id}:${img.version}"
     }
   }
 }

@@ -3,8 +3,14 @@ resource "talos_machine_secrets" "this" {
 
   # Never destroy machine secrets — regenerating them breaks all cluster nodes.
   # To intentionally replace: tofu state rm, then tofu apply.
+  #
+  # talos_version is only used when the secrets are first generated. Changing it later
+  # makes the provider regenerate every secret in place (CA, etcd certs, cluster ID,
+  # encryption keys). prevent_destroy does not catch that, because it is an update, not
+  # a destroy. Ignore it so Talos upgrades can bump cluster.talos_version safely.
   lifecycle {
     prevent_destroy = true
+    ignore_changes  = [talos_version]
   }
 }
 

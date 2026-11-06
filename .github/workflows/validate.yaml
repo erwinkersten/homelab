@@ -59,7 +59,7 @@ jobs:
 
       - uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4 # v2
         with:
-          tofu_version: 1.13.8 # renovate: github-releases=opentofu/opentofu extractVersion=^v(?<version>.+)$
+          tofu_version: v1.13.9 # renovate: github-releases=opentofu/opentofu extractVersion=^v(?<version>.+)$
           tofu_wrapper: false
           github_token: ${{ secrets.GITHUB_TOKEN }}
 

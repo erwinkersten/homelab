@@ -474,13 +474,27 @@ upgrade_kubelet_node() {
 if $DO_K8S; then
   info "Kubernetes upgrade to $TARGET_K8S"
   step "Pre-checks: talosctl upgrade-k8s --dry-run (Talos compatibility, image pre-pull)"
-  if ! talosctl -n "${CP_IPS[0]}" -e "${CP_IPS[0]}" upgrade-k8s --from "$API_VERSION" --to "$TARGET_K8S" --dry-run \
-    >"$LOG_DIR/k8s-dry-run.log" 2>&1; then
-    tail -30 "$LOG_DIR/k8s-dry-run.log" >&2
+  MANIFESTS_IN_SYNC=true
+  DRY_RUN_LOG="$LOG_DIR/k8s-dry-run.log"
+  if talosctl -n "${CP_IPS[0]}" -e "${CP_IPS[0]}" upgrade-k8s --from "$API_VERSION" --to "$TARGET_K8S" --dry-run \
+    >"$DRY_RUN_LOG" 2>&1; then
+    grep -E 'compatible|deprecated|removed' "$DRY_RUN_LOG" | sed 's/^/  /' || true
+    ok "Pre-checks passed."
+  elif grep -q '^updating manifests' "$DRY_RUN_LOG"; then
+    # Compatibility, removed flags/APIs and all component steps passed; only the
+    # bootstrap manifest diff failed. The per-node upgrade does not need that sync.
+    grep -E 'compatible|deprecated|removed' "$DRY_RUN_LOG" | sed 's/^/  /' || true
+    ok "Compatibility and API pre-checks passed."
+    warn "The bootstrap manifests cannot be synced:"
+    grep -iE 'error|invalid' "$DRY_RUN_LOG" | cut -c1-300 | sed 's/^/     /' >&2 || true
+    warn "This usually means a manifest in the machine config (inlineManifests or extraManifests)"
+    warn "changed an immutable field, e.g. the cilium-install Job. The control plane components and"
+    warn "kubelets can still be upgraded per node; the manifest sync step will be skipped."
+    MANIFESTS_IN_SYNC=false
+  else
+    grep -v 'pre-pulling' "$DRY_RUN_LOG" | tail -30 >&2
     die "Kubernetes pre-checks failed. Talos may not support $TARGET_K8S yet: upgrade Talos first."
   fi
-  grep -E 'compatible|deprecated|removed|error' "$LOG_DIR/k8s-dry-run.log" | sed 's/^/  /' || true
-  ok "Pre-checks passed."
   confirm_or_stop "Start the Kubernetes upgrade to $TARGET_K8S?"
 
   # 1. Control plane components, one control plane node at a time.
@@ -501,13 +515,20 @@ if $DO_K8S; then
 
   # 3. Bootstrap manifests (CoreDNS, kube-proxy, RBAC) through talosctl upgrade-k8s.
   info "Kubernetes bootstrap manifests"
-  echo "  talosctl upgrade-k8s syncs the bootstrap manifests for $TARGET_K8S."
-  echo "  Components and kubelets that already run $TARGET_K8S keep running."
-  if confirm "Run talosctl upgrade-k8s --to $TARGET_K8S --upgrade-kubelet=false?"; then
+  if ! $MANIFESTS_IN_SYNC; then
+    warn "Skipping the manifest sync: the dry run could not diff the bootstrap manifests (see above)."
+    warn "Fix the manifest in the machine config, then run: talosctl upgrade-k8s --to $TARGET_K8S --dry-run"
+    SKIPPED+=("Kubernetes bootstrap manifests (dry run failed)")
+  else
+    echo "  talosctl upgrade-k8s syncs the bootstrap manifests for $TARGET_K8S: Talos' own manifests"
+    echo "  (CoreDNS, RBAC) plus every inlineManifest and extraManifest in the machine config."
+    echo "  Components and kubelets that already run $TARGET_K8S keep running."
+  fi
+  if $MANIFESTS_IN_SYNC && confirm "Run talosctl upgrade-k8s --to $TARGET_K8S --upgrade-kubelet=false?"; then
     talosctl -n "${CP_IPS[0]}" -e "${CP_IPS[0]}" upgrade-k8s --to "$TARGET_K8S" --upgrade-kubelet=false
     health_check
     UPGRADED+=("Kubernetes bootstrap manifests -> $TARGET_K8S")
-  else
+  elif $MANIFESTS_IN_SYNC; then
     SKIPPED+=("Kubernetes bootstrap manifests")
   fi
 fi

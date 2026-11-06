@@ -689,10 +689,11 @@ features:
       # - PolicyError
   policyExceptions:
     # -- Enables the feature
-    enabled: false
+    enabled: true
     # -- Restrict policy exceptions to a single namespace
     # Set to "*" to allow exceptions in all namespaces
-    namespace: ''
+    # Exceptions live in kubernetes/infra/policy-management/policy-exceptions
+    namespace: kyverno
   protectManagedResources:
     # -- Enables the feature
     enabled: false

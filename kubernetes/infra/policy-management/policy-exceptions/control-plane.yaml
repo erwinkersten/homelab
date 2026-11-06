@@ -1,0 +1,26 @@
+# Talos runs the control plane as static pods. They use host networking and
+# mount certificates and config from the host.
+apiVersion: policies.kyverno.io/v1
+kind: PolicyException
+metadata:
+  name: talos-control-plane
+spec:
+  policyRefs:
+    - kind: ValidatingPolicy
+      name: disallow-host-namespaces
+    - kind: ValidatingPolicy
+      name: disallow-host-path
+  matchConditions:
+    - name: talos-managed-control-plane-in-kube-system
+      expression: >-
+        object.metadata.namespace == 'kube-system' &&
+        has(object.metadata.labels) &&
+        'app.kubernetes.io/managed-by' in object.metadata.labels &&
+        object.metadata.labels['app.kubernetes.io/managed-by'] == 'Talos' &&
+        'tier' in object.metadata.labels &&
+        object.metadata.labels['tier'] == 'control-plane' &&
+        'app.kubernetes.io/name' in object.metadata.labels &&
+        object.metadata.labels['app.kubernetes.io/name'] in
+          ['kube-apiserver', 'kube-controller-manager', 'kube-scheduler']
+  properties:
+    reason: Talos-managed control plane static pods

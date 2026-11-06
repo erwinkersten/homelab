@@ -154,6 +154,8 @@ INSTALLER=$(jq -r '.image.installer_image // empty' <<<"$VARS_JSON")
 TARGET_TALOS=""
 INSTALLER_PLATFORM=""
 if [[ -n "$INSTALLER" ]]; then
+  [[ "$INSTALLER" != *"://"* ]] ||
+    die "image.installer_image must be an image reference without a URL scheme. Remove '${INSTALLER%%://*}://' from $INSTALLER"
   TARGET_TALOS="${INSTALLER##*:}"
   [[ "$TARGET_TALOS" =~ ^v[0-9]+\.[0-9]+\.[0-9]+ ]] ||
     die "image.installer_image must end with a version tag, e.g. :v1.14.5 (got $INSTALLER)."

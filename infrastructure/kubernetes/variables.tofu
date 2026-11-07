@@ -29,10 +29,42 @@ variable "cluster" {
     gateway         = string
     cidr            = number
     proxmox_cluster = string
-    talos_version      = string
-    kubernetes_version = string # must be compatible with talos_version — see https://www.talos.dev/latest/introduction/support-matrix/
+
+    # Talos version the nodes run. Bump it after every Talos upgrade (talos-upgrade.sh
+    # prints when). It needs a matching image entry in images.<env>.tfvars, and
+    # image.file_id should point at that image.
+    talos_version = string
+
+    # Talos version whose machine configuration format OpenTofu generates (the "version
+    # contract" of the Talos provider). Nodes accept configuration in an older format, so
+    # this stays pinned while talos_version moves up. Changing it changes the generated
+    # configuration of every node: from v1.14 on it switches to a new multi-document
+    # format that the templates in talos/machine-config/ are not migrated to yet.
+    # It must not be newer than talos_version.
+    talos_config_version = string
+
+    kubernetes_version = string # must be supported by talos_version — see https://docs.siderolabs.com/talos/latest/getting-started/support-matrix
     bootstrap_node     = string # IP of the control plane used for bootstrap and kubeconfig retrieval
   })
+
+  validation {
+    condition = alltrue([
+      for v in [var.cluster.talos_version, var.cluster.talos_config_version] :
+      can(regex("^v[0-9]+\\.[0-9]+\\.[0-9]+$", v))
+    ])
+    error_message = "cluster.talos_version and cluster.talos_config_version must look like v1.14.5."
+  }
+
+  validation {
+    condition = (
+      tonumber(split(".", trimprefix(var.cluster.talos_config_version, "v"))[0]) * 1000 +
+      tonumber(split(".", trimprefix(var.cluster.talos_config_version, "v"))[1])
+      <=
+      tonumber(split(".", trimprefix(var.cluster.talos_version, "v"))[0]) * 1000 +
+      tonumber(split(".", trimprefix(var.cluster.talos_version, "v"))[1])
+    )
+    error_message = "cluster.talos_config_version must not be a newer minor version than cluster.talos_version: nodes cannot read a configuration format newer than their own version."
+  }
 }
 
 variable "nodes" {

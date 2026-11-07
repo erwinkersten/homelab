@@ -62,7 +62,12 @@ spec:
         command:
           - cilium
           - install
-          - --version=v1.20.4 # renovate: github-releases=cilium/cilium
+          # Pinned on purpose, no Renovate: this Job only runs when a cluster is bootstrapped,
+          # and its pod template is immutable. Talos re-applies inline manifests during
+          # `talosctl upgrade-k8s`, so any change here makes that fail on existing clusters.
+          # Keep it at the version the prod Job was created with. The running Cilium is
+          # upgraded through kubernetes/core/network/cilium instead.
+          - --version=v1.19.4
           - --repository
           - https://helm.cilium.io/
           - --values

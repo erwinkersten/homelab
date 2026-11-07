@@ -542,9 +542,11 @@ for item in "${SKIPPED[@]:-}"; do [[ -n "$item" ]] && warn "Skipped: $item"; don
 echo
 echo "Next steps:"
 if $DO_TALOS; then
-  echo "  - In $(basename "$TFVARS"): set cluster.talos_version = \"$TARGET_TALOS\" (now \"$TALOS_CFG_VERSION\"),"
-  echo "    set image.file_id to the new image's file_id, and set image.update_file_id and"
-  echo "    image.installer_image back to null."
+  echo "  - In $(basename "$TFVARS"): set image.file_id to the new image's file_id, and set"
+  echo "    image.update_file_id and image.installer_image back to null."
+  echo "  - Leave cluster.talos_version at \"$TALOS_CFG_VERSION\". It sets the machine configuration"
+  echo "    format, not the running version. Raising it changes the generated configuration for"
+  echo "    every node; only do that on purpose after reviewing the plan (see README)."
   echo "  - Remove the old version from images.${ENV}.tfvars and run ./tofu-images.sh ${ENV}."
 fi
 echo "  - Review 'tofu plan -var-file=$(basename "$TFVARS")' before running ./tofu-deploy.sh ${ENV}."

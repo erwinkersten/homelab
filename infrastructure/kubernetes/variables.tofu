@@ -43,7 +43,7 @@ variable "cluster" {
     # It must not be newer than talos_version.
     talos_config_version = string
 
-    kubernetes_version = string # must be supported by talos_version — see https://www.talos.dev/latest/introduction/support-matrix/
+    kubernetes_version = string # must be supported by talos_version — see https://docs.siderolabs.com/talos/latest/getting-started/support-matrix
     bootstrap_node     = string # IP of the control plane used for bootstrap and kubeconfig retrieval
   })
 

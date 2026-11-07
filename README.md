@@ -42,19 +42,17 @@ cd homelab/infrastructure/kubernetes
 Every Talos release supports a specific set of Kubernetes versions. Setting a mismatched `kubernetes_version` in `environment.prod.tfvars` will cause the machine config apply to fail.
 
 Check the official support matrix before filling in the versions:
-[https://www.talos.dev/latest/introduction/support-matrix/](https://www.talos.dev/latest/introduction/support-matrix/)
+[https://docs.siderolabs.com/talos/latest/getting-started/support-matrix](https://docs.siderolabs.com/talos/latest/getting-started/support-matrix)
 
-Quick reference for recent Talos releases:
+Quick reference for the latest Talos releases (November 2026):
 
 | Talos version | Supported Kubernetes versions |
 |---------------|-------------------------------|
-| v1.9.x        | 1.29, 1.30, 1.31              |
-| v1.10.x       | 1.30, 1.31, 1.32              |
-| v1.11.x       | 1.31, 1.32, 1.33              |
-| v1.12.x       | 1.33, 1.34, 1.35              |
-| v1.13.x       | 1.34, 1.35, 1.36              |
+| v1.14.x       | 1.33 – 1.37                   |
+| v1.13.x       | 1.31 – 1.36                   |
+| v1.12.x       | 1.30 – 1.35                   |
 
-> Always verify against the official matrix — the table above may lag behind the latest releases.
+> Always verify against the official matrix — the table above may lag behind the latest releases. Each version's page lists only that release and the one before it; replace `latest` in the URL with a version such as `v1.13` for older releases.
 
 Set the versions in `environment.prod.tfvars`:
 
@@ -188,7 +186,7 @@ Rules the script cannot check for you:
 - **Use the platform-specific installer.** The VMs run the `nocloud` platform, so the installer must be `factory.talos.dev/nocloud-installer/...`. The generic `factory.talos.dev/installer/...` is for bare metal: a node upgraded with it ignores the Proxmox cloud-init data and comes back with a DHCP address and a generated hostname. `tofu-images.sh` prints the correct installer, and the script refuses one that does not match the node's platform.
 - **Do not touch `cluster.talos_config_version` during an upgrade.** It sets the machine configuration format, not the running version (see [Choose Talos and Kubernetes Versions](#2-choose-talos-and-kubernetes-versions)). The script refuses to run when it is newer than a node's Talos version.
 - **Do not copy versions from the example blindly.** `environment.prod.tfvars.example` carries Renovate's latest `talos_version` and `kubernetes_version`; an existing cluster's tfvars must describe what its nodes run.
-- **Check Kubernetes support** for the target Talos version in the [support matrix](https://www.talos.dev/latest/introduction/support-matrix/). Upgrade Talos first when the current Talos release does not support the Kubernetes version you want.
+- **Check Kubernetes support** for the target Talos version in the [support matrix](https://docs.siderolabs.com/talos/latest/getting-started/support-matrix). Upgrade Talos first when the current Talos release does not support the Kubernetes version you want.
 - **Avoid the nightly backup window** between 00:00 and 01:00 UTC. The script warns when you start it then.
 
 ### Finding available versions

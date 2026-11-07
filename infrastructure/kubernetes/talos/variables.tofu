@@ -17,7 +17,7 @@ variable "cluster" {
     cidr            = number
     talos_version        = string # Talos version the nodes run (informational in this module)
     talos_config_version = string # Machine configuration format to generate; see the root variables.tofu
-    kubernetes_version   = string # must be supported by talos_version — see https://www.talos.dev/latest/introduction/support-matrix/
+    kubernetes_version   = string # must be supported by talos_version — see https://docs.siderolabs.com/talos/latest/getting-started/support-matrix
     proxmox_cluster      = string
     bootstrap_node     = string # IP of the control plane node used for bootstrap and kubeconfig retrieval
   })

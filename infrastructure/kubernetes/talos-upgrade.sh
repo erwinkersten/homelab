@@ -11,6 +11,9 @@
 #                               (leave null to skip the Talos upgrade)
 #   cluster.kubernetes_version  target Kubernetes version
 #                               (equal to the running version skips the Kubernetes upgrade)
+#   cluster.talos_version       Talos version the nodes run; update it after a Talos upgrade
+#   cluster.talos_config_version  machine configuration format; the script only checks
+#                               that it is not newer than any node, it never changes it
 #
 # Order of work:
 #   1. Pre-flight: tools, config files, nodes in tfvars match the cluster, cluster health.
@@ -149,7 +152,8 @@ WK_IPS=()
 for n in "${WK_NAMES[@]}"; do WK_IPS+=("$(ip_of "$n")"); done
 
 TARGET_K8S=$(strip_v "$(jq -r '.cluster.kubernetes_version' <<<"$VARS_JSON")")
-TALOS_CFG_VERSION=$(jq -r '.cluster.talos_version' <<<"$VARS_JSON")
+TALOS_RUN_VERSION=$(jq -r '.cluster.talos_version' <<<"$VARS_JSON")          # what the nodes should run
+TALOS_CFG_VERSION=$(jq -r '.cluster.talos_config_version' <<<"$VARS_JSON")   # machine config format
 INSTALLER=$(jq -r '.image.installer_image // empty' <<<"$VARS_JSON")
 TARGET_TALOS=""
 INSTALLER_PLATFORM=""
@@ -301,6 +305,24 @@ echo
 echo "  Talos target:       ${TARGET_TALOS:-none (image.installer_image is null)}"
 [[ -n "$INSTALLER" ]] && echo "  Installer image:    $INSTALLER"
 echo "  Kubernetes target:  $TARGET_K8S (control plane runs $API_VERSION)"
+echo "  tfvars:             talos_version $TALOS_RUN_VERSION, talos_config_version $TALOS_CFG_VERSION"
+
+# The machine configuration format must not be newer than any node's Talos version.
+for name in "${CP_NAMES[@]}" "${WK_NAMES[@]}"; do
+  c_minor=$(strip_v "$TALOS_CFG_VERSION" | cut -d. -f1,2)
+  n_minor=$(strip_v "${CUR_TALOS[$name]}" | cut -d. -f1,2)
+  if [[ "$(printf '%s\n%s\n' "$c_minor" "$n_minor" | sort -V | tail -1)" != "$n_minor" ]]; then
+    die "cluster.talos_config_version $TALOS_CFG_VERSION is newer than Talos ${CUR_TALOS[$name]} on $name."
+  fi
+done
+
+# Without a Talos upgrade, talos_version should describe what the nodes run.
+if [[ -z "$TARGET_TALOS" ]]; then
+  for name in "${CP_NAMES[@]}" "${WK_NAMES[@]}"; do
+    same_version "${CUR_TALOS[$name]}" "$TALOS_RUN_VERSION" ||
+      warn "$name runs Talos ${CUR_TALOS[$name]}, but cluster.talos_version is $TALOS_RUN_VERSION. Update the tfvars."
+  done
+fi
 
 DO_TALOS=false
 if [[ -n "$TARGET_TALOS" ]]; then
@@ -542,11 +564,11 @@ for item in "${SKIPPED[@]:-}"; do [[ -n "$item" ]] && warn "Skipped: $item"; don
 echo
 echo "Next steps:"
 if $DO_TALOS; then
-  echo "  - In $(basename "$TFVARS"): set image.file_id to the new image's file_id, and set"
-  echo "    image.update_file_id and image.installer_image back to null."
-  echo "  - Leave cluster.talos_version at \"$TALOS_CFG_VERSION\". It sets the machine configuration"
-  echo "    format, not the running version. Raising it changes the generated configuration for"
-  echo "    every node; only do that on purpose after reviewing the plan (see README)."
+  echo "  - In $(basename "$TFVARS"): set cluster.talos_version = \"$TARGET_TALOS\" (now \"$TALOS_RUN_VERSION\"),"
+  echo "    set image.file_id to the new image's file_id, and set image.update_file_id and"
+  echo "    image.installer_image back to null."
+  echo "  - Leave cluster.talos_config_version at \"$TALOS_CFG_VERSION\". It sets the machine"
+  echo "    configuration format; raising it changes the generated configuration of every node."
   echo "  - Remove the old version from images.${ENV}.tfvars and run ./tofu-images.sh ${ENV}."
 fi
 echo "  - Review 'tofu plan -var-file=$(basename "$TFVARS")' before running ./tofu-deploy.sh ${ENV}."

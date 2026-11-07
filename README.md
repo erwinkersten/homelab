@@ -56,15 +56,25 @@ Quick reference for recent Talos releases:
 
 > Always verify against the official matrix — the table above may lag behind the latest releases.
 
-Set both values in `environment.prod.tfvars`:
+Set the versions in `environment.prod.tfvars`:
 
 ```hcl
 cluster = {
-  talos_version      = "v1.12.8"  # must match images.prod.tfvars
-  kubernetes_version = "1.35.4"   # must be in the supported range above
+  talos_version        = "v1.14.5" # Talos version the nodes run; needs an entry in images.prod.tfvars
+  kubernetes_version   = "1.36.4"  # must be in the supported range above
+  talos_config_version = "v1.13.3" # machine configuration format OpenTofu generates; stays pinned
   ...
 }
 ```
+
+There are two Talos versions on purpose:
+
+| Setting | Meaning | When it changes |
+|---|---|---|
+| `talos_version` | The Talos version the nodes run. `tofu-images.sh` must have downloaded its image, and `image.file_id` points at that image. | After every Talos upgrade. |
+| `talos_config_version` | The Talos version whose machine configuration format OpenTofu generates, also called the version contract. Nodes accept configuration in an older format. | Rarely, and only on purpose after reviewing the plan. It must not be newer than `talos_version`. |
+
+From Talos v1.14 the generated configuration uses a new multi-document format. The patches in `talos/machine-config/` still use the older `v1alpha1` layout, so keep `talos_config_version` at v1.13.x or lower until they are migrated. With a v1.14 format the plan rewrites every node's configuration and, for example, adds a Flannel CNI section next to Cilium. The Talos Terraform provider documentation also recommends keeping the contract pinned to the version the cluster was created with.
 
 ### 3. Prepare Configuration Files
 
@@ -176,7 +186,8 @@ The Talos API endpoint and Kubernetes API server used for each step are always a
 Rules the script cannot check for you:
 
 - **Use the platform-specific installer.** The VMs run the `nocloud` platform, so the installer must be `factory.talos.dev/nocloud-installer/...`. The generic `factory.talos.dev/installer/...` is for bare metal: a node upgraded with it ignores the Proxmox cloud-init data and comes back with a DHCP address and a generated hostname. `tofu-images.sh` prints the correct installer, and the script refuses one that does not match the node's platform.
-- **`cluster.talos_version` is the machine configuration format, not the running version.** OpenTofu uses it to generate the machine configuration for every node. Nodes accept a configuration for an older Talos version, so it can stay behind the running version. Only raise it on purpose, after reviewing the plan: from v1.14 on, the generated configuration uses a new multi-document format that the patches in `talos/machine-config/` have not been migrated to yet (it would, for example, add a Flannel CNI section next to Cilium). `environment.prod.tfvars.example` carries Renovate's latest versions; do not copy them blindly into an existing cluster's tfvars.
+- **Do not touch `cluster.talos_config_version` during an upgrade.** It sets the machine configuration format, not the running version (see [Choose Talos and Kubernetes Versions](#2-choose-talos-and-kubernetes-versions)). The script refuses to run when it is newer than a node's Talos version.
+- **Do not copy versions from the example blindly.** `environment.prod.tfvars.example` carries Renovate's latest `talos_version` and `kubernetes_version`; an existing cluster's tfvars must describe what its nodes run.
 - **Check Kubernetes support** for the target Talos version in the [support matrix](https://www.talos.dev/latest/introduction/support-matrix/). Upgrade Talos first when the current Talos release does not support the Kubernetes version you want.
 - **Avoid the nightly backup window** between 00:00 and 01:00 UTC. The script warns when you start it then.
 
@@ -248,12 +259,12 @@ Answer `y` to upgrade a node, `s` to skip it, or `q` to stop. Talos drains each 
 
 When the script has finished, it prints what to change:
 
-1. In `environment.prod.tfvars`, set `image.file_id` to the new image and set `update_file_id` and `installer_image` back to `null`. Leave `cluster.talos_version` unchanged (see the rules above).
+1. In `environment.prod.tfvars`, set `cluster.talos_version` to the new version, set `image.file_id` to the new image, and set `update_file_id` and `installer_image` back to `null`. Leave `cluster.talos_config_version` unchanged.
 2. Remove the old version from `images.prod.tfvars` and remove its image from Proxmox:
    ```bash
    ./tofu-images.sh prod
    ```
-3. Review the plan before applying it. After a Kubernetes upgrade it should only change the image tags the script already patched onto the nodes. Stop if it changes anything else. Changing `talos_version` never touches the machine secrets, because `talos/config.tofu` ignores that field on `talos_machine_secrets`, but it does change the generated machine configuration.
+3. Review the plan before applying it. After a Kubernetes upgrade it should only change the image tags the script already patched onto the nodes. Stop if it changes anything else. `talos_version` does not affect the generated configuration; only `talos_config_version` does. Changing `talos_config_version` never touches the machine secrets, because `talos/config.tofu` ignores that field on `talos_machine_secrets`, but it does change the configuration of every node.
    ```bash
    tofu plan -var-file=environment.prod.tfvars
    ./tofu-deploy.sh prod

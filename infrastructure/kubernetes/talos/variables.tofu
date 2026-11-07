@@ -15,9 +15,10 @@ variable "cluster" {
     endpoint        = string
     gateway         = string
     cidr            = number
-    talos_version      = string
-    kubernetes_version = string # must be compatible with talos_version — see https://www.talos.dev/latest/introduction/support-matrix/
-    proxmox_cluster    = string
+    talos_version        = string # Talos version the nodes run (informational in this module)
+    talos_config_version = string # Machine configuration format to generate; see the root variables.tofu
+    kubernetes_version   = string # must be supported by talos_version — see https://www.talos.dev/latest/introduction/support-matrix/
+    proxmox_cluster      = string
     bootstrap_node     = string # IP of the control plane node used for bootstrap and kubeconfig retrieval
   })
 }

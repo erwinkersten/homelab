@@ -1,5 +1,6 @@
 resource "talos_machine_secrets" "this" {
-  talos_version = var.cluster.talos_version
+  # The secrets follow the configuration format, not the running Talos version.
+  talos_version = var.cluster.talos_config_version
 
   # Never destroy machine secrets — regenerating them breaks all cluster nodes.
   # To intentionally replace: tofu state rm, then tofu apply.
@@ -7,7 +8,7 @@ resource "talos_machine_secrets" "this" {
   # talos_version is only used when the secrets are first generated. Changing it later
   # makes the provider regenerate every secret in place (CA, etcd certs, cluster ID,
   # encryption keys). prevent_destroy does not catch that, because it is an update, not
-  # a destroy. Ignore it so Talos upgrades can bump cluster.talos_version safely.
+  # a destroy. Ignore it so cluster.talos_config_version can be raised safely.
   lifecycle {
     prevent_destroy = true
     ignore_changes  = [talos_version]
@@ -28,7 +29,7 @@ data "talos_machine_configuration" "this" {
 
   cluster_name        = var.cluster.name
   cluster_endpoint    = "https://${var.cluster.endpoint}:6443"
-  talos_version       = var.cluster.talos_version
+  talos_version       = var.cluster.talos_config_version # configuration format, not the running version
   kubernetes_version  = var.cluster.kubernetes_version
   machine_type        = each.value.machine_type
   machine_secrets  = talos_machine_secrets.this.machine_secrets

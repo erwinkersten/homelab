@@ -29,7 +29,7 @@ cluster = {
   # talos_version needs a matching entry in images.<env>.tfvars (tofu-images.sh downloads it).
   # kubernetes_version must be supported by that Talos release, see
   # https://docs.siderolabs.com/talos/latest/getting-started/support-matrix
-  talos_version      = "v1.14.6" # renovate: github-releases=siderolabs/talos
+  talos_version      = "v1.14.7" # renovate: github-releases=siderolabs/talos
   kubernetes_version = "1.37.2" # renovate: github-releases=kubernetes/kubernetes extractVersion=^v(?<version>.+)$
 
   # Machine configuration format OpenTofu generates (the Talos provider's version contract).
